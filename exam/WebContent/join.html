@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script>
+	function checkId(){
+		var idDoc = document.getElementById("id");
+		var msgDoc = document.getElementById("idMsg");
+		if(idDoc.value.length < 5 && idDoc.value.length > 0){
+			msgDoc.innerHTML = "5자리 이상을 입력해주세요."
+		}else{
+			msgDoc.innerHTML = "";
+		}
+	}
+</script>
+
+<link rel="stylesheet" type="text/css" href="./style/color.css">
+
+</head>
+<body>
+
+	<a href="./index.html">메인메뉴 바로가기</a>
+
+	<fieldset>
+		<legend>양식</legend>
+		아이디 : <input type="text" id="id" onkeyup="checkId()">
+		<span class="red-font" id="idMsg"></span>
+		<br>
+		비밀번호 : <input type="password"><br>
+		비밀번호 확인 : <input type="password">
+	</fieldset>
+</body>
+</html>
