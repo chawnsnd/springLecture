@@ -9,11 +9,11 @@ public class JspController {
 
 	@RequestMapping(value = "/jsp1", method = RequestMethod.GET)
 	public String jsp1() {
-		return "jsp/jsp1";
+		return "jsp1Test";
 	}
 	
 	@RequestMapping(value = "/jsp2", method = RequestMethod.GET)
 	public String jsp2() {
-		return "jsp/jsp2";
+		return "jsp2Test";
 	}
 }
