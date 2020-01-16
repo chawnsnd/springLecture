@@ -14,8 +14,12 @@
 	<!-- <a href="/web1/join">회원가입하러가기</a> -->
 	
 	<!-- 상대경로 -->
-	<a href="./join">회원가입</a>
-	<a href="./login">로그인</a>
+	<p><a href="./join">회원가입</a></p>
+	<p><a href="./login">로그인</a></p>
+	<p><a href="./read">기사 읽기</a></p>
+	<p><a href="param1">Form의 사용자 입력 데이터 서버로 전달</a></p>
+	<p><a href="param3">서버로부터 사용자로부터 데이터 전달</a></p>
+	<p>${id}님 환영합니다.</p>
 <!-- 	<a href="join">회원가입하러가기</a> -->
 	
 </body>

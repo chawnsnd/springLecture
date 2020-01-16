@@ -2,6 +2,9 @@ package global.sesoc.web1;
 
 import java.util.Locale;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,7 +15,10 @@ public class HomeController {
 		
 	// 메인화면으로 이동
 	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public String home(Locale locale, Model model) {
+	public String home(Locale locale, Model model, HttpServletRequest req) {
+		HttpSession session = req.getSession();
+		String id = (String) session.getAttribute("id");
+		model.addAttribute("id", id);
 		return "home";
 	}
 
@@ -22,7 +28,7 @@ public class HomeController {
 		return "joinForm";
 	}
 
-	// 회원가입화면으로 이동
+	// 회원가입
 	@RequestMapping(value = "/join2", method = RequestMethod.POST)
 	public String join(String id, String password, String name, String phone) {
 		System.out.println("======== 회원가입폼에서 입력받은 값 ============");
@@ -44,12 +50,20 @@ public class HomeController {
 		return "loginForm";
 	}
 
-	// 로그인화면으로 이동
+	// 로그인
 	@RequestMapping(value = "/login2", method = RequestMethod.POST)
-	public String login(String id, String password) {
+	public String login(String id, String password, HttpServletRequest req) {
 		System.out.println("======== 로그인폼에서 입력받은 값 ============");
 		System.out.println("ID : "+id);
 		System.out.println("비밀번호 : "+password);
+		HttpSession session = req.getSession();
+		session.setAttribute("id", id);
 		return "redirect:/";
+	}
+
+	// 기사화면으로 이동
+	@RequestMapping(value = "/read", method = RequestMethod.GET)
+	public String read() {
+		return "read";
 	}
 }
