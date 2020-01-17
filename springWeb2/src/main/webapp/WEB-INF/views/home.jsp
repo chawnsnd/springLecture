@@ -18,9 +18,10 @@
 		</ol>
 	</ul>
 	<ul>
-	<li><p>JSL 연습</p></li>
+	<li><p>JSTL 연습</p></li>
 		<ol>
-			<li><a href=""></a></li>
+			<li><a href="jstl1">코어 라이브러리</a></li>
+			<li><a href="jstl2">연습</a></li>
 		</ol>
 	</ul>
 	<ul>
@@ -35,6 +36,7 @@
 			<li><a href=""></a></li>
 		</ol>
 	</ul>
+	<ul>
 	<li><p>cookie 연습</p></li>
 		<ol>
 			<li><a href=""></a></li>
