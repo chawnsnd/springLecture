@@ -8,18 +8,30 @@
 <title>jtsl2</title>
 </head>
 <body>
-	<h2>JSTL 연습</h2>
-	${num}<br><br>
-	${map}<br>
-	${map.str}<br>
-	${map.num}<br><br>
-	<c:forEach var="element" items="${map}">
-		${element}
+
+person : ${person }<br>
+list: ${list }<br>
+
+<p>[Person 객체 출력]</p>
+이름 : ${person.name }<br>
+나이 : ${person.age }<br>
+주소 : ${person.address }<br>
+
+<p>[List 출력]</p>
+<table border="1">
+	<tr>
+		<th>이름</th>
+		<th>나이</th>
+		<th>주소</th>
+	</tr>
+	<c:forEach var="p" items="${list}">
+	<tr>
+		<td>${p.name }</td>
+		<td>${p.age }</td>
+		<td>${p.address }</td>
+	</tr>
 	</c:forEach>
-	<br>
-	<c:forEach var="element" items="${map}">
-		${element.key} / ${element.value}<br>
-	</c:forEach>
+</table>	
 	
 </body>
 </html>

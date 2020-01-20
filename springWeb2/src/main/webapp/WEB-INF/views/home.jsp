@@ -21,13 +21,15 @@
 	<li><p>JSTL 연습</p></li>
 		<ol>
 			<li><a href="jstl1">코어 라이브러리</a></li>
-			<li><a href="jstl2">연습</a></li>
+			<li><a href="jstl2">코어 라이브러리2</a></li>
 		</ol>
 	</ul>
 	<ul>
 	<li><p>Parameter 연습</p></li>
 		<ol>
-			<li><a href=""></a></li>
+			<li><a href="param1">POST 방식의 Form 전달</a></li>
+			<li><a href="param2">POST 방식의 Form 전달2</a></li>
+			<li><a href="param3?num=100">GET 방식의 전달</a></li>
 		</ol>
 	</ul>
 	<ul>

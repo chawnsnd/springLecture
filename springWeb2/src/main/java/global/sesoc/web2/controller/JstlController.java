@@ -1,12 +1,13 @@
 package global.sesoc.web2.controller;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+
+import global.sesoc.web2.vo.Person;
 
 @Controller
 public class JstlController {
@@ -31,13 +32,35 @@ public class JstlController {
 	
 	@RequestMapping(value = "/jstl2", method = RequestMethod.GET)
 	public String jstl2(Model model) {
-		Integer num = 100;
-		HashMap<String, Object> map = new HashMap<String, Object>();
-		map.put("str", "해시맵문자열");
-		map.put("num", "123");
 		
-		model.addAttribute("num", num);
-		model.addAttribute("map", map);
+		Person person = new Person();
+		person.setName("홍길동");
+		person.setAge(20);
+		person.setAddress("서울");
+	
+		ArrayList<Person> list = new ArrayList<Person>();
+		Person p = new Person();
+		p.setName("김철수");
+		p.setAge(30);
+		p.setAddress("부산");		
+		list.add(p);
+
+		p = new Person();
+		p.setName("이철수");
+		p.setAge(40);
+		p.setAddress("광주");		
+		list.add(p);
+
+		p = new Person();
+		p.setName("차준웅");
+		p.setAge(28);
+		p.setAddress("안양");		
+		list.add(p);
+		
+		model.addAttribute("person", person);
+		model.addAttribute("list", list);
+		
 		return "jstl2Test";
+		
 	}
 }
