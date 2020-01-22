@@ -1,10 +1,13 @@
 package global.sesoc.web2.controller;
+
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -35,12 +38,24 @@ public class CookieController {
 		// 3. response객체를 통해 내보내기
 		res.addCookie(c1);
 		res.addCookie(c2);
-		
+
 		return "redirect:/";
 	}
-	
+
 	@RequestMapping(value = "/cookie3", method = RequestMethod.GET)
-	public String cookie3() {
-		return "cookieTest";
+	public String cookie3(HttpServletRequest req) {
+		Cookie[] cookies = req.getCookies();
+		for (Cookie cookie : cookies) {
+			logger.info(cookie.getName() + ", " + cookie.getValue());
+		}
+		return "redirect:/";
+	}
+
+	@RequestMapping(value = "/cookie4", method = RequestMethod.GET)
+	public String cookie4(
+			@CookieValue(value = "name", defaultValue = "없음") String name,
+			@CookieValue(value = "age", defaultValue = "0") int age) {
+		logger.info("name: {}, age: {}", name, age);
+		return "redirect:/";
 	}
 }

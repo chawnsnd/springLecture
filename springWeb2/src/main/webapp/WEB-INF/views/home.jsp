@@ -59,7 +59,8 @@
 		<ol>
 			<li><a href="cookie1">쿠키에 값 저장</a></li>
 			<li><a href="cookie2">쿠키의 값 삭제</a></li>
-			<li><a href="cookie3">쿠키의 값 확인</a></li>
+			<li><a href="cookie3">쿠키의 값 확인 1</a></li>
+			<li><a href="cookie4">쿠키의 값 확인 2</a></li>
 		</ol>
 	</ul>
 
