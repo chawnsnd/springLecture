@@ -3,6 +3,11 @@
 
 <mapper namespace="global.sesoc.web3.dao.PersonMapper">
 
+	<select id="getCount" resultType="int">
+		select count(*)
+		from person
+	</select>
+	
 	<insert id="insertPerson" parameterType="person">
 		insert into person(name, age, address)
 		values (
@@ -11,5 +16,28 @@
 			#{address}
 		)
 	</insert>
+
+	<select id="selectPerson" parameterType="string" resultType="person">
+		select *
+		from person
+<!-- 	where name like '%'||#{name}||'%' -->
+		where name like #{name}
+	</select>
+
+	<select id="selectAll" resultType="person">
+		select *
+		from person
+	</select>
+	
+	<delete id="deletePerson" parameterType="string">
+		delete
+		from person
+		where name = #{name}
+	</delete>
+
+	<delete id="deleteAll" parameterType="string">
+		delete
+		from person
+	</delete>
 
 </mapper>
