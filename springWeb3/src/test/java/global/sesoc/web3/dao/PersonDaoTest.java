@@ -3,10 +3,14 @@ package global.sesoc.web3.dao;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
+import javax.naming.Context;
+
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
@@ -20,15 +24,19 @@ import global.sesoc.web3.vo.Person;
 @WebAppConfiguration
 @Transactional
 public class PersonDaoTest {
+	
+	@Autowired
+	private ApplicationContext context;
 
 	@Autowired
-	PersonDao personDao;
+	private PersonDao personDao;
 
 	private Person[] personArr;
 	private Person person;
 	
 	@Before
 	public void setPerson() {
+		
 		personArr = new Person[10];
 		for(int i=0; i<personArr.length; i++) {			
 			Person person = Person.builder()

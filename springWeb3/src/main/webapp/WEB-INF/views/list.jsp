@@ -9,14 +9,15 @@
 </head>
 <body>
 <h1>[ 모든 회원 ]</h1>
-<c:if test="${list==null}">
+<c:if test="${list==null || list.size() == 0}">
 	<p>등록된 회원이 없습니다.</p>
 </c:if>
-<c:if test="${list!=null}">
+<c:if test="${list!=null && list.size() != 0}">
 	<c:forEach var="person" items="${list}">
 		<p>이름 : ${person.name }</p>
 		<p>나이 : ${person.age }</p>
 		<p>주소 : ${person.address }</p>
+		<p><button onclick="location.href='delete?name=${person.name}'">삭제</button></p>
 		<hr/>
 	</c:forEach>
 </c:if>

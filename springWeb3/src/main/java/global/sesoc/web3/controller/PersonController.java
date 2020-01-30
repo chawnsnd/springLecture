@@ -35,7 +35,7 @@ public class PersonController {
 		
 		int result = personDao.insertPerson(person);
 		
-		logger.info(person+"입력 결과: "+result);
+		logger.debug(person+"입력 결과: "+result);
 		
 		return "redirect:/";
 	}
@@ -62,9 +62,9 @@ public class PersonController {
 	public String delete(String name) {
 		
 		int result = personDao.deletePerson(name);
-		logger.info(name+" 삭제결과: "+result);
+		logger.debug(name+" 삭제결과: "+result);
 		
-		return "redirect:/";
+		return "redirect:/list";
 	}
 
 }
