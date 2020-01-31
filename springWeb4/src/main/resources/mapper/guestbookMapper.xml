@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="global.sesoc.web4.dao.GuestbookMapper">
+
+	<insert id="insertGuestbook" parameterType="guestbook">
+		insert into guestbook(
+			num,	
+			name, 
+			password, 
+			contents
+		) values(
+			guestbook_seq.nextval,
+			#{name}, 
+			#{password},
+			#{contents}
+		)
+	</insert>
+	
+	<select id="allGuestbook" resultType="guestbook">
+		select num, name, contents, to_char(inputdate, 'YYYY-MM-DD HH:mm:SS') as inputdate
+		from guestbook
+		order by num desc
+	</select>
+	
+	<delete id="deleteAll">
+		delete
+		from guestbook
+	</delete>
+	
+	<select id="getCount" resultType="int">
+		select count(*)
+		from guestbook
+	</select>
+	
+	<update id="modifyGuestbook" parameterType="guestbook">
+		update guestbook
+		set name = #{name},
+			contents = #{contents}
+		where num = #{num} and password = #{password}
+	</update>
+	
+	<delete id="deleteGuestbook" parameterType="hashmap">
+		delete
+		from guestbook
+		where num = #{num} and password = #{password}
+	</delete>
+	
+</mapper>
