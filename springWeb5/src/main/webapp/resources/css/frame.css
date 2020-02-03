@@ -1,0 +1,11 @@
+@charset "UTF-8";
+html, body, div{
+	font-size: 13px;
+	margin:0;
+	padding:0;
+	vertical-align: baseline;
+}
+section{
+	width: 65%;
+	margin: auto;
+}
