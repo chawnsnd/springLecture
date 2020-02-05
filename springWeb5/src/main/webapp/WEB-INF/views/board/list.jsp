@@ -6,8 +6,8 @@
 <head>
 <meta charset="UTF-8">
 <title>게시판</title>
-<link rel="stylesheet" type="text/css" href="./resources/css/table.css">
-<link rel="stylesheet" type="text/css" href="./resources/css/frame.css">
+<link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/frame.css"/>">
+<link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/table.css"/>">
 <style>
 .item:hover{
 	cursor: pointer;
@@ -39,13 +39,13 @@ p>span {
 </style>
 </head>
 <body>
-<%@ include file="header.jsp" %>
+<%@ include file="../layout/header.jsp" %>
 <section>
-	<h1 class="board_title" onclick="location.href='board'">연습 게시판</h1>
+	<h1 class="board_title" onclick="location.href='list'">연습 게시판</h1>
 	<div>
 		<span class="count">전체 : 241</span>
 		<div class="write_btn">
-			<input id="write_button" type="button" value="글쓰기" onclick="location.href='writeBoard'">
+			<input id="write_button" type="button" value="글쓰기" onclick="location.href='write'">
 		</div>
 	</div>
 	<table>
@@ -63,8 +63,8 @@ p>span {
 			<th>조회수</th>
 			<th>등록일</th>
 		</tr>
-		<c:forEach var="num" begin="253" end="262">
-		<tr class="item" onclick="location.href='readBoard?num=${num}'">
+		<c:forEach var="num" begin="253" end="268">
+		<tr class="item" onclick="location.href='read?num=${num}'">
 			<td>${num}</td>
 			<td class="title">연습 연습</td>
 			<td>bbb</td>

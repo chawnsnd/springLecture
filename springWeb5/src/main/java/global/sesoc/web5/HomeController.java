@@ -36,44 +36,4 @@ public class HomeController {
 		return "home";
 	}
 	
-	@RequestMapping(value = "/join", method = RequestMethod.GET)
-	public String goToJoinForm() {
-		return "joinForm";
-	}
-
-	@RequestMapping(value = "/checkId", method = RequestMethod.GET)
-	public String goToCheckIdForm() {
-		return "checkIdForm";
-	}
-
-	@RequestMapping(value = "/login", method = RequestMethod.GET)
-	public String goToLoginForm() {
-		return "loginForm";
-	}
-
-	@RequestMapping(value = "/userInfo", method = RequestMethod.GET)
-	public String goToUserInfoForm() {
-		return "userInfoForm";
-	}
-
-	@RequestMapping(value = "/board", method = RequestMethod.GET)
-	public String goToBoard() {
-		return "board";
-	}
-
-	@RequestMapping(value = "/writeBoard", method = RequestMethod.GET)
-	public String goToWriteBoardForm() {
-		return "writeBoardForm";
-	}
-
-	@RequestMapping(value = "/modifyBoard", method = RequestMethod.GET)
-	public String goToModifyBoardForm() {
-		return "modifyBoardForm";
-	}
-
-	@RequestMapping(value = "/readBoard", method = RequestMethod.GET)
-	public String goToReadBoard() {
-		return "readBoard";
-	}
-	
 }

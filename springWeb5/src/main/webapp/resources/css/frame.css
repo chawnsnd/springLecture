@@ -4,8 +4,10 @@ html, body, div{
 	margin:0;
 	padding:0;
 	vertical-align: baseline;
+	position: relative;
 }
 section{
 	width: 65%;
 	margin: auto;
+	padding-bottom: 2.5rem;
 }

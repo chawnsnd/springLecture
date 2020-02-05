@@ -1,12 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>글쓰기</title>
-<link rel="stylesheet" type="text/css" href="./resources/css/table.css">
-<link rel="stylesheet" type="text/css" href="./resources/css/frame.css">
+<link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/frame.css"/>">
+<link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/table.css"/>">
 <style>
 table {
 	width: 100%;
@@ -24,10 +25,10 @@ table td *{
 </style>
 </head>
 <body>
-	<%@ include file="header.jsp" %>
+	<%@ include file="../layout/header.jsp" %>
 	<section>
 	<h1>글쓰기</h1>
-	<form action="writeBoard" method="post">
+	<form action="write" method="post">
 		<table>
 			<tr>
 				<th>제목</th>

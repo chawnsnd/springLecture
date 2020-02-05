@@ -1,12 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>게시판 글읽기</title>
-<link rel="stylesheet" type="text/css" href="./resources/css/table.css">
-<link rel="stylesheet" type="text/css" href="./resources/css/frame.css">
+<link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/frame.css"/>">
+<link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/table.css"/>">
 <style>
 .board_title{
 	cursor: pointer;
@@ -44,6 +45,9 @@ table.reply .reply_submit > *{
 }
 table.reply .reply_submit_input{
 	width: 100%;
+	height: 1.5em;
+	outline: none;
+	border-bottom: 2px solid grey;
 }
 table.reply th, td{
 	padding: 5px 10px;
@@ -70,9 +74,9 @@ table.reply td.reply_delete{
 </style>
 </head>
 <body>
-	<%@ include file="header.jsp" %>
+	<%@ include file="../layout/header.jsp" %>
 	<section>
-	<h1 class="board_title" onclick="location.href='board'">연습 게시판</h1>
+	<h1 class="board_title" onclick="location.href='./list'">연습 게시판</h1>
 	<table class="board">
 		<tr>
 			<th>작성자</th>
@@ -107,7 +111,7 @@ table.reply td.reply_delete{
 	<div class="menu">
 		<span>삭제</span>
 		<span>수정</span>
-		<span onclick="location.href='board'">목록보기</span>
+		<span onclick="location.href='list'">목록보기</span>
 	</div>
 	<table class="reply">
 		<tr class="reply_submit">

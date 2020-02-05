@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="global.sesoc.web5.dao.MemberMapper">
+
+	<insert id="insertMember" parameterType="member">
+		insert into web5_member(
+			id, 
+			password, 
+			name
+			<if test="phone != null">
+			, phone
+			</if>
+			<if test="address != null">
+			,address 
+			</if>
+			<if test="email != null">
+			,email
+			</if>
+		) values(
+			#{id},
+			#{password},
+			#{name}
+			<if test="phone != null">
+				,#{phone}
+			</if>
+			<if test="address != null">
+				,#{address}
+			</if>
+			<if test="email != null">
+				,#{email}
+			</if>
+		)
+	</insert>
+	
+	<select id="selectMember" resultType="member" parameterType="hashmap">
+		select id, name, phone, address, email
+		from web5_member
+		where id = #{id} and password = #{password}
+	</select>
+	
+	<update id="updateMember" parameterType="member">
+		update web5_member
+		set
+			password = #{password},
+			name = #{name},
+			phone = #{phone},
+			address = #{address},
+			email = #{email}
+		where
+			id = #{id}
+	</update>
+	
+	<select id="selectCountById" parameterType="string" resultType="int">
+		select count(*)
+		from web5_member
+		where id = #{id}
+	</select>
+
+	<select id="getMember" parameterType="string" resultType="member">
+		select id, name, phone, address, email
+		from web5_member
+		where id = #{id}
+	</select>
+
+	<select id="getSnsMember" parameterType="string" resultType="snsmember">
+		select *
+		from web5_sns_member
+		where sns_id = #{sns_id}
+	</select>
+	
+	<insert id="insertSnsMember" parameterType="snsmember">
+		insert into web5_sns_member(
+			id, 
+			sns_id,
+			sns_type
+		) values(
+			#{id},
+			#{sns_id},
+			#{sns_type}
+		)
+	</insert>
+
+</mapper>
