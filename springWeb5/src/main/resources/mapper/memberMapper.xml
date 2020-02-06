@@ -5,9 +5,9 @@
 
 	<insert id="insertMember" parameterType="member">
 		insert into web5_member(
-			id, 
-			password, 
-			name
+			id
+			,password
+			,name
 			<if test="phone != null">
 			, phone
 			</if>
@@ -18,9 +18,9 @@
 			,email
 			</if>
 		) values(
-			#{id},
-			#{password},
-			#{name}
+			#{id}
+			,#{password}
+			,#{name}
 			<if test="phone != null">
 				,#{phone}
 			</if>
@@ -33,32 +33,27 @@
 		)
 	</insert>
 	
-	<select id="selectMember" resultType="member" parameterType="hashmap">
-		select id, name, phone, address, email
-		from web5_member
-		where id = #{id} and password = #{password}
-	</select>
-	
 	<update id="updateMember" parameterType="member">
 		update web5_member
 		set
-			password = #{password},
-			name = #{name},
-			phone = #{phone},
-			address = #{address},
-			email = #{email}
+			password = #{password}
+			,name = #{name}
+			<if test="phone != null">
+			,phone = #{phone}
+			</if>
+			<if test="address != null">
+			,address = #{address}
+			</if>
+			<if test="email != null">
+			,email = #{email}
+			</if>
 		where
 			id = #{id}
 	</update>
 	
-	<select id="selectCountById" parameterType="string" resultType="int">
-		select count(*)
-		from web5_member
-		where id = #{id}
-	</select>
 
 	<select id="getMember" parameterType="string" resultType="member">
-		select id, name, phone, address, email
+		select *
 		from web5_member
 		where id = #{id}
 	</select>

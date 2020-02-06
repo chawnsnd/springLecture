@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="global.sesoc.web5.dao.BoardMapper">
+
+	<insert id="insertBoard" parameterType="board">
+	insert into web5_board(
+		boardnum,
+		id,
+		title,
+		contents
+	)values(
+		web5_board_seq.nextval,
+		#{id},
+		#{title},
+		#{contents}
+	)
+	</insert>
+	
+	<select id="selectAllBoard" resultType="board">
+	select boardnum, id, title, hits, likes, to_char(inputdate, 'YYYY-MM-DD') as inputdate
+	from web5_board
+	order by boardnum desc
+	</select>
+
+	<select id="selectBoard" resultType="board" parameterType="int">
+	select *
+	from web5_board
+	where boardnum = #{boardnum}
+	</select>
+	
+	<update id="updateBoard" parameterType="board">
+	update web5_board
+	set
+		title = #{title},
+		contents = #{contents},
+		originalfile = #{originalfile}
+	where
+		boardnum = #{boardnum}
+	</update>
+
+	<update id="updateHits" parameterType="int">
+	update web5_board
+	set
+		hits = hits+1
+	where
+		boardnum = #{boardnum}
+	</update>
+
+</mapper>

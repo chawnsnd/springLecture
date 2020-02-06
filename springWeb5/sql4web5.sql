@@ -27,6 +27,7 @@ create table web5_board (
 	contents	varchar2(2000) not null, 	--내용
 	inputdate	date default sysdate, 		--작성일,
 	hits		number default 0,			--조회수
+	likes		number default 0,			--조회수
 	originalfile	varchar2(200),			--첨부파일 원래이름
 	savedfile		varchar2(100)			--첨부파일 저장된 이름
 );
@@ -62,3 +63,4 @@ select * from web5_member;
 select * from web5_sns_member;
 select * from web5_board;
 select * from web5_reply;
+

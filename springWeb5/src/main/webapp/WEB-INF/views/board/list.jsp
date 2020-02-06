@@ -44,15 +44,18 @@ p>span {
 	<h1 class="board_title" onclick="location.href='list'">연습 게시판</h1>
 	<div>
 		<span class="count">전체 : 241</span>
+		<c:if test="${sessionScope.loginId != null }">
 		<div class="write_btn">
 			<input id="write_button" type="button" value="글쓰기" onclick="location.href='write'">
 		</div>
+		</c:if>
 	</div>
 	<table>
 		<colgroup>
 		<col style="width: 7%">
 		<col>
 		<col style="width: 12%">
+		<col style="width: 7%">
 		<col style="width: 7%">
 		<col style="width: 10%">
 		</colgroup>
@@ -61,15 +64,17 @@ p>span {
 			<th>제목</th>
 			<th>작성자</th>
 			<th>조회수</th>
+			<th>추천수</th>
 			<th>등록일</th>
 		</tr>
-		<c:forEach var="num" begin="253" end="268">
-		<tr class="item" onclick="location.href='read?num=${num}'">
-			<td>${num}</td>
-			<td class="title">연습 연습</td>
-			<td>bbb</td>
-			<td>0</td>
-			<td>2017-02-12</td>
+		<c:forEach var="board" items="${boardList }">
+		<tr class="item" onclick="location.href='read?boardnum=${board.boardnum}'">
+			<td>${board.boardnum}</td>
+			<td class="title">${board.title }</td>
+			<td>${board.id }</td>
+			<td>${board.hits }</td>
+			<td>${board.likes }</td>
+			<td>${board.inputdate }</td>
 		</tr>
 		</c:forEach>
 	</table>
@@ -88,5 +93,6 @@ p>span {
 		</form>
 	</div>
 </section>
+<%-- <%@ include file="../layout/footer.jsp" %> --%>
 </body>
 </html>

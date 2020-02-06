@@ -24,15 +24,6 @@ public class MemberDao {
 		}
 	}
 
-	public Member selectMember(String id, String password) {
-		HashMap<String, Object> loginInfo = new HashMap<>();
-		loginInfo.put("id", id);
-		loginInfo.put("password", password);
-		MemberMapper mapper = session.getMapper(MemberMapper.class);
-		Member member = mapper.selectMember(loginInfo);
-		return member;
-	}
-
 	public boolean updateMember(Member member) {
 		MemberMapper mapper = session.getMapper(MemberMapper.class);
 		if(mapper.updateMember(member) == 1) {
@@ -42,10 +33,6 @@ public class MemberDao {
 		}
 	}
 
-	public int selectCountById(String id) {
-		MemberMapper mapper = session.getMapper(MemberMapper.class);
-		return mapper.selectCountById(id);
-	}
 	
 	public Member getMember(String id) {
 		MemberMapper mapper = session.getMapper(MemberMapper.class);

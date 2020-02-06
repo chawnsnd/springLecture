@@ -6,6 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>게시판 글읽기</title>
+<script src="https://kit.fontawesome.com/74fba7f134.js" crossorigin="anonymous"></script>
 <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/frame.css"/>">
 <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/table.css"/>">
 <style>
@@ -46,8 +47,11 @@ table.reply .reply_submit > *{
 table.reply .reply_submit_input{
 	width: 100%;
 	height: 1.5em;
+	border: none;
 	outline: none;
-	border-bottom: 2px solid grey;
+}
+table.reply .reply_submit_input:focus{
+	border-bottom: 1px solid grey;
 }
 table.reply th, td{
 	padding: 5px 10px;
@@ -71,6 +75,23 @@ table.reply td.reply_delete{
 	width: 10%;
 	text-align: center;
 }
+.like_box{
+	margin: auto;
+	width: 120px;
+	height: 70px;
+	border: 1px solid #dee3eb;
+	border-radius: 3px;
+	display: flex;
+	margin-bottom: 10px;
+	cursor: pointer;
+}
+.like_box>div{
+	color: #666;
+	text-align: center;
+	font-size: 20px;
+	margin: auto;
+	flex: 1;
+}
 </style>
 </head>
 <body>
@@ -80,37 +101,42 @@ table.reply td.reply_delete{
 	<table class="board">
 		<tr>
 			<th>작성자</th>
-			<td>aaa</td>
+			<td>${board.id}</td>
 		</tr>
 		<tr>
 			<th>작성일</th>
-			<td>2017-02-19 20:11:18</td>
+			<td>${board.inputdate }</td>
 		</tr>
 		<tr>
 			<th>조회수</th>
-			<td>5</td>
+			<td>${board.hits }</td>
 		</tr>
 		<tr>
 			<th>제목</th>
-			<td>파일 첨부 테스트입니다.</td>
+			<td>${board.title }</td>
 		</tr>
 		<tr>
 			<th>내용</th>
 			<td class="contents">
-				파일 첨부 테스트입니다.
-				파일 첨부 테스트입니다.
-				파일 첨부 테스트입니다.
-				파일 첨부 테스트입니다.
+				<pre>${board.contents }</pre>
+				<div class="like_box">
+					<div><i class="far fa-thumbs-up"></i></div>
+					<div>${board.likes }</div>
+				</div>
 			</td>
 		</tr>
 		<tr>
 			<th>파일첨부</th>
-			<td><a href="#">flower.png</a></td>
+			<td>
+				<c:if test="${board.originalfile != null}">
+					<a href="${board.savedfile }">${board.originalfile }</a>
+				</c:if>
+			</td>
 		</tr>
 	</table>
 	<div class="menu">
 		<span>삭제</span>
-		<span>수정</span>
+		<span onclick="location.href='modify?boardnum=${board.boardnum}'">수정</span>
 		<span onclick="location.href='list'">목록보기</span>
 	</div>
 	<table class="reply">

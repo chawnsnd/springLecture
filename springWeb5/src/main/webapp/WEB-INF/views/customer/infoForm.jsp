@@ -35,9 +35,9 @@ table td, th{
 }
 </style>
 <script>
-function checkJoin(){
+function checkUpdate(){
 	if(!checkNull()){
-		alert("모든 항목을 입력해주세요.");
+		alert("아이디, 비밀번호, 이름은 필수입력 항목입니다.");
 		return false;
 	}else if(!checkId()){
 		alert("아이디를 확인해주세요.");
@@ -51,20 +51,12 @@ function checkJoin(){
 
 }
 function checkNull(){
-	var id = document.getElementById("id");
 	var password = document.getElementById("password");
 	var passwordCheck = document.getElementById("passwordCheck");
 	var name = document.getElementById("name");
-	var email = document.getElementById("email");
-	var address = document.getElementById("address");
-	var phone = document.getElementById("phone");
-	if((id.value == null || id.value == '') ||
-		(password.value == null || password.value == '') ||
+	if((password.value == null || password.value == '') ||
 		(passwordCheck.value == null || passwordCheck.value == '') ||
-		(name.value == null || name.value == '') ||
-		(email.value == null || email.value == '') ||
-		(address.value == null || address.value == '') ||
-		(phone.value == null || phone.value == '')){
+		(name.value == null || name.value == '')){
 		return false;
 	}else{
 		return true;
@@ -94,13 +86,17 @@ function checkPassword(){
 <%@ include file="../layout/header.jsp" %>
 <section>
 <h1>개인 정보 수정</h1>
-<form action="info" method="post" onsubmit="return checkJoin()">
+<form action="info" method="post" onsubmit="return checkUpdate()">
 <table>
+	<tr>
+		<th colspan="3">
+			필수입력
+		</th>
+	</tr>
 	<tr>
 		<th>ID</th>
 		<td colspan="2">
-			${sessionScope.authMember.id }
-			<input type="text" id="id" name="id" value="${sessionScope.authMember.id }" hidden="hidden">
+			${member.id }
 		</td>
 	</tr>
 	<tr>
@@ -117,25 +113,30 @@ function checkPassword(){
 	<tr>
 		<th>이름</th>
 		<td colspan="2">
-			<input type="text" placeholder="이름 입력" value="${sessionScope.authMember.name }" id="name" name="name">
+			<input type="text" placeholder="이름 입력" value="${member.name }" id="name" name="name">
 		</td>
+	</tr>
+	<tr>
+		<th colspan="3">
+			선택입력
+		</th>
 	</tr>
 	<tr>
 		<th>이메일</th>
 		<td colspan="2">
-			<input type="text" placeholder="이메일 입력" value="${sessionScope.authMember.email }" id="email" name="email">
+			<input type="text" placeholder="이메일 입력" value="${member.email }" id="email" name="email">
 		</td>
 	</tr>
 	<tr>
 		<th>전화번호</th>
 		<td colspan="2">
-			<input type="text" placeholder="전화번호" value="${sessionScope.authMember.phone }" id="phone" name="phone">
+			<input type="text" placeholder="전화번호" value="${member.phone }" id="phone" name="phone">
 		</td>
 	</tr>
 	<tr>
 		<th>주소</th>
 		<td colspan="2">
-			<input type="text" placeholder="주소 입력" value="${sessionScope.authMember.address }" id="address" name="address">
+			<input type="text" placeholder="주소 입력" value="${member.address }" id="address" name="address">
 		</td>
 	</tr>
 </table>

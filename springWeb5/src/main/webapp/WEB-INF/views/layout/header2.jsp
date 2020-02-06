@@ -23,7 +23,7 @@
 </head>
 <header>
 	<div class="header_bottom">
-		<span onclick="location.href='<c:url value="/"/>'">[ SpringWeb5 - SE Bank Step 4 ]</span>
+		<span onclick="location.href='<c:url value="/"/>'">SpringWeb5 - SE Bank Step 4</span>
 	</div>
 </header>
 </html>

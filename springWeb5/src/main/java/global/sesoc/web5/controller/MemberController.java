@@ -43,7 +43,8 @@ public class MemberController {
         SnsMember snsMember = memberDao.getSnsMember(userInfo.get("id"));
         if(snsMember!=null) {
         	Member member = memberDao.getMember(snsMember.getId());
-        	session.setAttribute("authMember", member);
+        	session.setAttribute("loginId", member.getId());
+        	session.setAttribute("loginName", member.getName());
         	return "redirect:/";
         }else {
         	String tempPassword = ""; 
@@ -68,7 +69,7 @@ public class MemberController {
         	newSnsMember.setSns_id(userInfo.get("id"));
         	newSnsMember.setSns_type("naver");
         	memberDao.inserSnsMember(newSnsMember);
-        	Member member2 = memberDao.selectMember(newSnsMember.getId(), newSnsMember.getSns_id());
+        	Member member2 = memberDao.getMember(newSnsMember.getId());
         	session.setAttribute("authMember", member2);
         	return "redirect:/";
         }
@@ -113,36 +114,42 @@ public class MemberController {
 
 	@RequestMapping(value = "login", method = RequestMethod.POST)
 	public String login(String id, String password, HttpSession session, Model model) {
-		Member member = memberDao.selectMember(id, password);
+		logger.debug("id: "+id+", pw: "+password);
+		Member member = memberDao.getMember(id);
 		if(member == null || member.getPassword().equals(password)) {
 			logger.debug("로그인 실패");
 			model.addAttribute("loginFailed", true);
 			return "customer/loginForm";
 		}else {
 			logger.debug("로그인 : "+member.toString());
-			session.setAttribute("authMember", member);
+			session.setAttribute("loginId", member.getId());
+			session.setAttribute("loginName", member.getName());
 			return "redirect:/";
 		}
 	}
 
 	@RequestMapping(value = "logout", method = RequestMethod.GET)
 	public String logout(HttpSession session) {
-		session.setAttribute("authMember", null);
+		session.setAttribute("loginId", null);
+		session.setAttribute("loginName", null);
 		return "redirect:/";
 	}
 
 	@RequestMapping(value = "info", method = RequestMethod.GET)
-	public String goToInfoForm(Member member) {
+	public String goToInfoForm(HttpSession session, Model model) {
+		String id = (String) session.getAttribute("loginId");
+		Member member = memberDao.getMember(id);
+		model.addAttribute("member", member);
 		return "customer/infoForm";
 	}
 
 	@RequestMapping(value = "info", method = RequestMethod.POST)
 	public String updateInfo(Member member, Model model, HttpSession session) {
-		logger.debug("회원수정 요청 Member: "+member.toString());
+		member.setId((String) session.getAttribute("loginId"));
 		boolean result= memberDao.updateMember(member);
 		if(result) {
 			logger.debug("수정 성공");
-			Member updatedMember = memberDao.selectMember(member.getId(), member.getPassword());
+			Member updatedMember = memberDao.getMember(member.getId());
 			session.setAttribute("authMember", updatedMember);
 			return "redirect:/";
 		}else {

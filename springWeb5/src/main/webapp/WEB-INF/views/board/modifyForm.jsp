@@ -22,30 +22,61 @@ table td *{
 	margin-top: 30px;
 	text-align: right;
 }
-</style></head>
+.bottom>span{
+	float: left;
+	cursor: pointer;
+}
+</style>
+<script>
+window.onload = function(){
+	<c:if test="${authSuccess != null}">
+	if(!${authSuccess}){
+		alert("권한이 없습니다.");
+		location.href="list";
+	}
+	</c:if>
+	<c:if test="${modifySuccess != null}">
+	if(!${modifySuccess}){
+		alert("제목과 내용을 입력해주세요.");
+	}
+	</c:if>
+}
+function checkForm(){
+	var title = document.getElementById("title");
+	var contents = document.getElementById("contents");
+	if(title.value == "" || contents.value == ""){
+		alert("제목과 내용을 입력해주세요.")
+		return false;
+	}
+	return true;
+}
+</script>
+</head>
 <body>
 	<%@ include file="../layout/header.jsp" %>
 	<section>
 	<h1>글수정</h1>
-	<form action="modify" method="post">
+	<form action="modify" method="post" onsubmit="return checkForm()">
 		<table>
 			<tr>
 				<th>제목</th>
-				<td><input type="text" value="글쓰기 연습입니다."></td>
+				<td><input type="text" id="title" name="title" value="${board.title }"></td>
 			</tr>
 			<tr>
 				<th>내용</th>
-				<td><textarea rows="20" style="resize: none;">글쓰기 연습입니다.
-					글쓰기 연습입니다.</textarea></td>
+				<td><textarea rows="20" id="contents" name="contents" style="resize: none;">${board.contents }</textarea>
+				</td>
 			</tr>
 			<tr>
 				<th>파일첨부</th>
 				<td>
-					<input type="file">
+					<input type="file" name="originalfile">
 				</td>
 			</tr>
 		</table>
+		<input type="text" value="${board.boardnum }" id="boardnum" name="boardnum" hidden="hidden">
 		<div class="bottom">
+			<span onclick="history.back()">뒤로가기</span>
 			<input type="submit" value="수정">
 		</div>
 	</form>

@@ -149,8 +149,10 @@ table td, th{
 	<div class="bottom">
 		<input type="submit" value="가입">
 		<input type="reset" value="다시 쓰기">
-		<hr>
-		<img style="vertical-align: middle; cursor: pointer;" width="100px;" src="<c:url value="/resources/img/naverLogin.PNG"/>" onclick="location.href='https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=Bh9GX6eaqwK4vmyWdvGV&state=STATE_STRING&redirect_uri=http://localhost:8888/web5/member/naverLogin'"/>
+		<fieldset style="margin-top: 20px; border: 1px solid #dee3eb;">
+		<legend style="color: grey; text-align: left;">Sign in with</legend> 
+		<img style="vertical-align: middle; cursor: pointer;" width="50%" src="<c:url value="/resources/img/naver_login.PNG"/>" onclick="location.href='https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=Bh9GX6eaqwK4vmyWdvGV&state=STATE_STRING&redirect_uri=http://localhost:8888/web5/member/naverLogin'"/>
+		</fieldset>
 	</div>
 </form>
 </section>

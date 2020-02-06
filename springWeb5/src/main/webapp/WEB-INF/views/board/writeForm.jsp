@@ -22,30 +22,51 @@ table td *{
 	margin-top: 30px;
 	text-align: right;
 }
+.bottom>span{
+	float: left;
+	cursor: pointer;
+}
 </style>
+<script>
+window.onload = function(){
+	if(!${writeSuccess}){
+		alert("제목과 내용을 입력해주세요.");
+	}
+}
+function checkForm(){
+	var title = document.getElementById("title");
+	var contents = document.getElementById("contents");
+	if(title.value == "" || contents.value == ""){
+		alert("제목과 내용을 입력해주세요.")
+		return false;
+	}
+	return true;
+}
+</script>
 </head>
 <body>
 	<%@ include file="../layout/header.jsp" %>
 	<section>
 	<h1>글쓰기</h1>
-	<form action="write" method="post">
+	<form action="write" method="post" onsubmit="return checkForm()">
 		<table>
 			<tr>
 				<th>제목</th>
-				<td><input type="text"></td>
+				<td><input type="text" id="title" name="title" value="${board.title }"></td>
 			</tr>
 			<tr>
 				<th>내용</th>
-				<td><textarea rows="20" style="resize: none;"></textarea></td>
+				<td><textarea rows="20" style="resize: none;" id="contents" name="contents">${board.contents }</textarea></td>
 			</tr>
 			<tr>
 				<th>파일첨부</th>
 				<td>
-					<input type="file">
+					<input type="file" name="originalfile">
 				</td>
 			</tr>
 		</table>
 		<div class="bottom">
+			<span onclick="location.href='list'">목록보기</span>
 			<input type="submit" value="저장">
 		</div>
 	</form>
