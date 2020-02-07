@@ -9,8 +9,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import global.sesoc.web5.dao.BoardDao;
 import global.sesoc.web5.vo.Board;
@@ -34,7 +37,9 @@ public class BoardController {
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public String goToBoard2(Model model) {
 		ArrayList<Board> boardList = boardDao.selectAllBoard();
+		int boardCount = boardDao.selectAllBoardCount();
 		model.addAttribute("boardList", boardList);
+		model.addAttribute("boardCount", boardCount);
 		return "board/list";
 	}
 
@@ -61,7 +66,8 @@ public class BoardController {
 		if(!board.getId().equals(session.getAttribute("loginId"))) {
 			model.addAttribute("authSuccess", "false");
 		}else {
-			model.addAttribute("board", board);			
+			model.addAttribute("board", board);
+			session.setAttribute("modifyBoardnum", boardnum);
 		}
 		return "board/modifyForm";
 	}
@@ -73,7 +79,9 @@ public class BoardController {
 			model.addAttribute("board", board);
 			return "board/modifyForm";
 		}
-		Board oldBoard = boardDao.selectBoard(board.getBoardnum());
+		int boardnum = (int) session.getAttribute("modifyBoardnum");
+		session.removeAttribute("modifyBoardnum");
+		Board oldBoard = boardDao.selectBoard(boardnum);
 		if(!oldBoard.getId().equals(session.getAttribute("loginId"))) {
 			model.addAttribute("authSuccess", "false");
 			return "board/modifyForm";
@@ -92,4 +100,23 @@ public class BoardController {
 		model.addAttribute("board", board);
 		return "board/read";
 	}
+	
+	@RequestMapping(value = "/delete", method = RequestMethod.GET)
+	public String delete(int boardnum, Model model, HttpSession session) {
+		Board board = boardDao.selectBoard(boardnum);
+		if(!board.getId().equals(session.getAttribute("loginId"))) {
+			model.addAttribute("authSuccess", "false");
+			model.addAttribute("deleteSuccess", "false");
+			return "board/deleteResult";
+		}
+		boardDao.deleteBoard(boardnum);
+		model.addAttribute("deleteSuccess", "true");
+		return "board/deleteResult";
+	}
+	
+//	@RequestMapping(value = "/like", method = RequestMethod.GET)
+//	@ResponseBody
+//	public String like(int boardnum) {
+//		
+//	}
 }

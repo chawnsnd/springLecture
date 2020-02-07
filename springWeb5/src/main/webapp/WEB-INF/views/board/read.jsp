@@ -37,6 +37,9 @@ td.contents{
 	cursor: pointer;
 	margin: 0 10px;
 }
+.menu > span:hover{
+	text-decoration: underline;
+}
 table.reply{
 	width: 100%;
 }
@@ -93,6 +96,11 @@ table.reply td.reply_delete{
 	flex: 1;
 }
 </style>
+<script>
+function clickLike(){
+	
+}
+</script>
 </head>
 <body>
 	<%@ include file="../layout/header.jsp" %>
@@ -119,7 +127,7 @@ table.reply td.reply_delete{
 			<th>내용</th>
 			<td class="contents">
 				<pre>${board.contents }</pre>
-				<div class="like_box">
+				<div class="like_box" onclick="clickLike()">
 					<div><i class="far fa-thumbs-up"></i></div>
 					<div>${board.likes }</div>
 				</div>
@@ -135,8 +143,10 @@ table.reply td.reply_delete{
 		</tr>
 	</table>
 	<div class="menu">
-		<span>삭제</span>
+		<c:if test="${sessionScope.loginId != null }">
+		<span onclick="location.href='delete?boardnum=${board.boardnum}'">삭제</span>
 		<span onclick="location.href='modify?boardnum=${board.boardnum}'">수정</span>
+		</c:if>
 		<span onclick="location.href='list'">목록보기</span>
 	</div>
 	<table class="reply">

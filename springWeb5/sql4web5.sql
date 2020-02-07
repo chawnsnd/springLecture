@@ -9,6 +9,10 @@ create table web5_member (
 	address		varchar2(100),				--주소
 	email		varchar2(50)				--이메일주소
 );
+
+alter table web5_member add profile	varchar2(200);
+
+
 -- SNS 회원 정보 테이블
 create table web5_sns_member (
   	id					varchar2(20) 	primary key,
@@ -27,13 +31,23 @@ create table web5_board (
 	contents	varchar2(2000) not null, 	--내용
 	inputdate	date default sysdate, 		--작성일,
 	hits		number default 0,			--조회수
-	likes		number default 0,			--조회수
+	likes		number default 0,			--좋아요수
 	originalfile	varchar2(200),			--첨부파일 원래이름
 	savedfile		varchar2(100)			--첨부파일 저장된 이름
 );
 
 --게시판 글 번호에 사용할 시퀀스
 create sequence web5_board_seq;
+
+--게시판 좋아요 정보 테이블
+create table web5_board (
+	boardnum 	number 			not null,
+	id 			varchar2(20) 	not null,
+	constraint like_fk foreign key(boardnum)
+		references web5_board(boardnum) on delete cascade,
+	constraint like_fk foreign key(id)
+		references web5_member(id) on delete cascade
+);
 
 --댓글 테이블
 create table web5_reply (

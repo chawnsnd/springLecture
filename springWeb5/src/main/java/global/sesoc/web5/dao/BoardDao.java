@@ -51,4 +51,18 @@ public class BoardDao {
 		}
 	}
 	
+	public int selectAllBoardCount() {
+		BoardMapper mapper = session.getMapper(BoardMapper.class);
+		return mapper.selectAllBoardCount();
+	}
+
+	public boolean deleteBoard(int boardnum) {
+		BoardMapper mapper = session.getMapper(BoardMapper.class);
+		if(mapper.deleteBoard(boardnum) == 1) {
+			return true;
+		}else {
+			return false;
+		}
+	}
+	
 }

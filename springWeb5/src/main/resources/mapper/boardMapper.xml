@@ -22,6 +22,11 @@
 	from web5_board
 	order by boardnum desc
 	</select>
+	
+	<select id="selectAllBoardCount" resultType="int">
+	select count(*)
+	from web5_board
+	</select>
 
 	<select id="selectBoard" resultType="board" parameterType="int">
 	select *
@@ -47,4 +52,9 @@
 		boardnum = #{boardnum}
 	</update>
 
+	<delete id="deleteBoard" parameterType="int">
+	delete
+	from web5_board
+	where boardnum = #{boardnum}
+	</delete>
 </mapper>

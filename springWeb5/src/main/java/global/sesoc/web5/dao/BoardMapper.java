@@ -11,9 +11,13 @@ public interface BoardMapper {
 	public ArrayList<Board> selectAllBoard();
 
 	public Board selectBoard(int boardnum);
+	
+	public int selectAllBoardCount();
 
 	public int updateBoard(Board board);
 
 	public int updateHits(int boardnum);
+
+	public int deleteBoard(int boardnum);
 	
 }

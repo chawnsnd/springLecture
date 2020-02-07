@@ -26,6 +26,9 @@ table td *{
 	float: left;
 	cursor: pointer;
 }
+.bottom>span:hover{
+	text-decoration: underline;
+}
 </style>
 <script>
 window.onload = function(){
@@ -74,7 +77,6 @@ function checkForm(){
 				</td>
 			</tr>
 		</table>
-		<input type="text" value="${board.boardnum }" id="boardnum" name="boardnum" hidden="hidden">
 		<div class="bottom">
 			<span onclick="history.back()">뒤로가기</span>
 			<input type="submit" value="수정">

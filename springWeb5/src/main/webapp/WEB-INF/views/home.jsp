@@ -9,12 +9,11 @@
 <link rel="stylesheet" type="text/css"
 	href="<c:url value="/resources/css/table.css"/>">
 </head>
-<link rel="stylesheet" type="text/css"
-</head>
 <style>
-.section {
-	width: 60%;
-}
+ section { 
+ 	width: 50%; 
+ 	position: relative; 
+ } 
 
 .menu {
 	text-align: center;

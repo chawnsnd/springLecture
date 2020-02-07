@@ -26,6 +26,9 @@ table td *{
 	float: left;
 	cursor: pointer;
 }
+.bottom>span:hover{
+	text-decoration: underline;
+}
 </style>
 <script>
 window.onload = function(){

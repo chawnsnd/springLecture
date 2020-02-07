@@ -43,7 +43,7 @@ p>span {
 <section>
 	<h1 class="board_title" onclick="location.href='list'">연습 게시판</h1>
 	<div>
-		<span class="count">전체 : 241</span>
+		<span class="count">전체 : ${boardCount }</span>
 		<c:if test="${sessionScope.loginId != null }">
 		<div class="write_btn">
 			<input id="write_button" type="button" value="글쓰기" onclick="location.href='write'">
