@@ -51,7 +51,7 @@ function checkForm(){
 	<%@ include file="../layout/header.jsp" %>
 	<section>
 	<h1>글쓰기</h1>
-	<form action="write" method="post" onsubmit="return checkForm()">
+	<form action="write" method="post" onsubmit="return checkForm()" enctype="multipart/form-data">
 		<table>
 			<tr>
 				<th>제목</th>
@@ -64,7 +64,7 @@ function checkForm(){
 			<tr>
 				<th>파일첨부</th>
 				<td>
-					<input type="file" name="originalfile">
+					<input type="file" name="upload" size="30">
 				</td>
 			</tr>
 		</table>

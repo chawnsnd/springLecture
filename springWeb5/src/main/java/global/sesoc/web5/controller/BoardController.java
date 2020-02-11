@@ -1,5 +1,6 @@
 package global.sesoc.web5.controller;
 
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 
 import javax.servlet.http.HttpSession;
@@ -14,8 +15,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import global.sesoc.web5.dao.BoardDao;
+import global.sesoc.web5.util.FileService;
 import global.sesoc.web5.vo.Board;
 
 @Controller
@@ -23,6 +26,8 @@ import global.sesoc.web5.vo.Board;
 public class BoardController {
 
 	private static final Logger logger = LoggerFactory.getLogger(BoardController.class);
+	private static final String UPLOAD_PATH = "/home/junwoong/boardfile";
+	
 	
 	@Autowired
 	private BoardDao boardDao;
@@ -49,13 +54,19 @@ public class BoardController {
 	}
 
 	@RequestMapping(value = "/write", method = RequestMethod.POST)
-	public String write(Board board, HttpSession session, Model model) {
-		if(board.getTitle().equals("") || board.getContents().equals("")) {
+	public String write(Board board, HttpSession session, Model model, MultipartFile upload) {
+		if (board.getTitle().equals("") || board.getContents().equals("")) {
 			model.addAttribute("writeSuccess", "false");
 			model.addAttribute("board", board);
 			return "board/writeForm";
 		}
 		board.setId((String) session.getAttribute("loginId"));
+		if(upload != null) {
+			String savedfile = FileService.saveFile(upload, UPLOAD_PATH);			
+			board.setSavedfile(savedfile);
+			board.setOriginalfile(upload.getOriginalFilename());
+		}
+
 		boardDao.insertBoard(board);
 		return "redirect:/board/list";
 	}
@@ -63,9 +74,9 @@ public class BoardController {
 	@RequestMapping(value = "/modify", method = RequestMethod.GET)
 	public String goToModifyForm(int boardnum, Model model, HttpSession session) {
 		Board board = boardDao.selectBoard(boardnum);
-		if(!board.getId().equals(session.getAttribute("loginId"))) {
+		if (!board.getId().equals(session.getAttribute("loginId"))) {
 			model.addAttribute("authSuccess", "false");
-		}else {
+		} else {
 			model.addAttribute("board", board);
 			session.setAttribute("modifyBoardnum", boardnum);
 		}
@@ -74,7 +85,7 @@ public class BoardController {
 
 	@RequestMapping(value = "/modify", method = RequestMethod.POST)
 	public String modify(Board board, Model model, HttpSession session) {
-		if(board.getTitle().equals("") || board.getContents().equals("")) {
+		if (board.getTitle().equals("") || board.getContents().equals("")) {
 			model.addAttribute("modifySuccess", "false");
 			model.addAttribute("board", board);
 			return "board/modifyForm";
@@ -82,7 +93,7 @@ public class BoardController {
 		int boardnum = (int) session.getAttribute("modifyBoardnum");
 		session.removeAttribute("modifyBoardnum");
 		Board oldBoard = boardDao.selectBoard(boardnum);
-		if(!oldBoard.getId().equals(session.getAttribute("loginId"))) {
+		if (!oldBoard.getId().equals(session.getAttribute("loginId"))) {
 			model.addAttribute("authSuccess", "false");
 			return "board/modifyForm";
 		}
@@ -100,11 +111,11 @@ public class BoardController {
 		model.addAttribute("board", board);
 		return "board/read";
 	}
-	
+
 	@RequestMapping(value = "/delete", method = RequestMethod.GET)
 	public String delete(int boardnum, Model model, HttpSession session) {
 		Board board = boardDao.selectBoard(boardnum);
-		if(!board.getId().equals(session.getAttribute("loginId"))) {
+		if (!board.getId().equals(session.getAttribute("loginId"))) {
 			model.addAttribute("authSuccess", "false");
 			model.addAttribute("deleteSuccess", "false");
 			return "board/deleteResult";
@@ -113,7 +124,7 @@ public class BoardController {
 		model.addAttribute("deleteSuccess", "true");
 		return "board/deleteResult";
 	}
-	
+
 //	@RequestMapping(value = "/like", method = RequestMethod.GET)
 //	@ResponseBody
 //	public String like(int boardnum) {

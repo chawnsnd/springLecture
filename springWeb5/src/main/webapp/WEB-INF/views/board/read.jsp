@@ -137,7 +137,7 @@ function clickLike(){
 			<th>파일첨부</th>
 			<td>
 				<c:if test="${board.originalfile != null}">
-					<a href="${board.savedfile }">${board.originalfile }</a>
+					<a href="${board.savedfile }" download="${board.originalfile }">${board.originalfile }</a>
 				</c:if>
 			</td>
 		</tr>

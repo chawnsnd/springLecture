@@ -56,7 +56,7 @@ public class MemberController {
         			tempPassword += (char)(rndVal + 61);
         		} else { 
         			tempPassword += (char)(rndVal + 55);
-        		} 
+        		}
         	}
         	Member member = new Member();
         	member.setId(userInfo.get("email"));
@@ -148,12 +148,10 @@ public class MemberController {
 		member.setId((String) session.getAttribute("loginId"));
 		boolean result= memberDao.updateMember(member);
 		if(result) {
-			logger.debug("수정 성공");
 			Member updatedMember = memberDao.getMember(member.getId());
 			session.setAttribute("authMember", updatedMember);
 			return "redirect:/";
 		}else {
-			logger.debug("수정 실패");
 			model.addAttribute("updateFailed", true);
 			return "customer/infoForm";
 		}

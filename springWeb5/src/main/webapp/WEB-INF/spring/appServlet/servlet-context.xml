@@ -24,5 +24,4 @@
 	<context:component-scan base-package="global.sesoc.web5" />
 	
 	
-	
 </beans:beans>
