@@ -1,8 +1,9 @@
 package global.sesoc.web5.controller;
 
-import java.io.FileOutputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -10,12 +11,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import global.sesoc.web5.dao.BoardDao;
 import global.sesoc.web5.util.FileService;
@@ -27,8 +29,7 @@ public class BoardController {
 
 	private static final Logger logger = LoggerFactory.getLogger(BoardController.class);
 	private static final String UPLOAD_PATH = "/home/junwoong/boardfile";
-	
-	
+
 	@Autowired
 	private BoardDao boardDao;
 
@@ -42,6 +43,9 @@ public class BoardController {
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public String goToBoard2(Model model) {
 		ArrayList<Board> boardList = boardDao.selectAllBoard();
+//		for (Board board : boardList) {
+//			board.setLikes(boardDao.selectLikeByBoardnum(board.getBoardnum()));
+//		}
 		int boardCount = boardDao.selectAllBoardCount();
 		model.addAttribute("boardList", boardList);
 		model.addAttribute("boardCount", boardCount);
@@ -61,8 +65,8 @@ public class BoardController {
 			return "board/writeForm";
 		}
 		board.setId((String) session.getAttribute("loginId"));
-		if(upload != null) {
-			String savedfile = FileService.saveFile(upload, UPLOAD_PATH);			
+		if (upload != null) {
+			String savedfile = FileService.saveFile(upload, UPLOAD_PATH);
 			board.setSavedfile(savedfile);
 			board.setOriginalfile(upload.getOriginalFilename());
 		}
@@ -105,9 +109,13 @@ public class BoardController {
 	}
 
 	@RequestMapping(value = "/read", method = RequestMethod.GET)
-	public String goToRead(int boardnum, Model model) {
+	public String goToRead(int boardnum, Model model, HttpSession session) {
 		boardDao.updateHits(boardnum);
 		Board board = boardDao.selectBoard(boardnum);
+		board.setLikes(boardDao.selectLike(board.getBoardnum()));
+		if(session.getAttribute("loginId")!=null) {
+			model.addAttribute("like", boardDao.selectLikeCount(boardnum, (String) session.getAttribute("loginId"))>=1);
+		}
 		model.addAttribute("board", board);
 		return "board/read";
 	}
@@ -125,9 +133,40 @@ public class BoardController {
 		return "board/deleteResult";
 	}
 
-//	@RequestMapping(value = "/like", method = RequestMethod.GET)
-//	@ResponseBody
-//	public String like(int boardnum) {
-//		
-//	}
+	@RequestMapping(value = "download", method = RequestMethod.GET)
+	public String fileDownload(int boardnum, Model model, HttpServletResponse response) {
+		Board board = boardDao.selectBoard(boardnum);
+		String originalfile = new String(board.getOriginalfile());
+		String fullPath = UPLOAD_PATH + "/" + board.getSavedfile();
+
+		FileService.download(originalfile, fullPath, response);
+
+		return null;
+	}
+
+	@RequestMapping(value = "/like", method = RequestMethod.GET)
+	@ResponseBody
+	public String like(int boardnum, HttpSession session) {
+		String json = "";
+		ObjectMapper mapper = new ObjectMapper();
+		HashMap<String, Object> like = new HashMap<>();
+		if(session.getAttribute("loginId")==null) {
+			return null;
+		}
+		if (boardDao.selectLikeCount(boardnum, (String) session.getAttribute("loginId"))>=1) {
+			boardDao.deleteLike(boardnum, (String) session.getAttribute("loginId"));
+			like.put("like", false);
+		} else {
+			boardDao.insertLike(boardnum, (String) session.getAttribute("loginId"));
+			like.put("like", true);
+		}
+		like.put("likeCount", boardDao.selectLike(boardnum));
+
+		try {
+			json = mapper.writeValueAsString(like);
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+		}
+		return json;
+	}
 }

@@ -30,7 +30,7 @@
 	</insert>
 	
 	<select id="selectAllBoard" resultType="board">
-	select boardnum, id, title, hits, likes, to_char(inputdate, 'YYYY-MM-DD') as inputdate
+	select boardnum, id, title, hits, to_char(inputdate, 'YYYY-MM-DD') as inputdate
 	from web5_board
 	order by boardnum desc
 	</select>
@@ -69,4 +69,33 @@
 	from web5_board
 	where boardnum = #{boardnum}
 	</delete>
+	
+	<insert id="insertLike" parameterType="hashmap">
+	insert into web5_board_like(
+		boardnum,
+		id
+	)values(
+		#{boardnum},
+		#{id}
+	)
+	</insert>
+	
+	<select id="selectLikeCount" parameterType="hashmap" resultType="int">
+	select count(*)
+	from web5_board_like
+	where boardnum = #{boardnum} and id = #{id}
+	</select>
+
+	<select id="selectLike" parameterType="int" resultType="int">
+	select count(*)
+	from web5_board_like
+	where boardnum = #{boardnum}
+	</select>
+	
+	<delete id="deleteLike" parameterType="hashmap">
+	delete
+	from web5_board_like
+	where boardnum = #{boardnum} and id = #{id}
+	</delete>
+	
 </mapper>

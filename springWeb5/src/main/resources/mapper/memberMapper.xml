@@ -6,7 +6,9 @@
 	<insert id="insertMember" parameterType="member">
 		insert into web5_member(
 			id
+			<if test="password != null">
 			,password
+			</if>
 			,name
 			<if test="phone != null">
 			, phone
@@ -17,9 +19,14 @@
 			<if test="email != null">
 			,email
 			</if>
+			<if test="salt != null">
+			,salt
+			</if>
 		) values(
 			#{id}
+			<if test="phone != null">
 			,#{password}
+			</if>
 			,#{name}
 			<if test="phone != null">
 				,#{phone}
@@ -29,6 +36,9 @@
 			</if>
 			<if test="email != null">
 				,#{email}
+			</if>
+			<if test="salt != null">
+				,#{salt}
 			</if>
 		)
 	</insert>
@@ -48,7 +58,7 @@
 			,email = #{email}
 			</if>
 		where
-			id = #{id}
+			id = #{id}password);
 	</update>
 	
 

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import global.sesoc.web5.dao.MemberDao;
+import global.sesoc.web5.util.PasswordUtil;
 import global.sesoc.web5.util.SnsOAuth;
 import global.sesoc.web5.vo.Member;
 import global.sesoc.web5.vo.SnsMember;
@@ -21,69 +22,58 @@ import global.sesoc.web5.vo.SnsMember;
 @Controller
 @RequestMapping("member")
 public class MemberController {
-	
+
 	private static final Logger logger = LoggerFactory.getLogger(MemberController.class);
-	
+
 	@Autowired
 	private MemberDao memberDao;
 	@Autowired
 	private SnsOAuth snsOAuth;
-	
+
 	@RequestMapping(value = "join", method = RequestMethod.GET)
 	public String goToJoinForm() {
-		
+
 		return "customer/joinForm";
 	}
 
 	@RequestMapping(value = "naverLogin", method = RequestMethod.GET)
 	public String goToNaverJoinForm(HttpServletRequest req, Model model, HttpSession session) {
-		
+
 		snsOAuth.setAccessToken(req.getParameter("code"), req.getParameter("state"));
 		Map<String, String> userInfo = snsOAuth.getUserInfo();
-        SnsMember snsMember = memberDao.getSnsMember(userInfo.get("id"));
-        if(snsMember!=null) {
-        	Member member = memberDao.getMember(snsMember.getId());
-        	session.setAttribute("loginId", member.getId());
-        	session.setAttribute("loginName", member.getName());
-        	return "redirect:/";
-        }else {
-        	String tempPassword = ""; 
-        	for(int i=0; i<8; i++) { 
-        		int rndVal = (int)(Math.random() * 62); 
-        		if(rndVal < 10) { 
-        			tempPassword += rndVal; 
-        		} else if(rndVal > 35) { 
-        			tempPassword += (char)(rndVal + 61);
-        		} else { 
-        			tempPassword += (char)(rndVal + 55);
-        		}
-        	}
-        	Member member = new Member();
-        	member.setId(userInfo.get("email"));
-        	member.setPassword(tempPassword);
-        	member.setEmail(userInfo.get("email"));
-        	member.setName(userInfo.get("name"));
-        	memberDao.insertMember(member);
-        	SnsMember newSnsMember = new SnsMember();
-        	newSnsMember.setId(member.getId());
-        	newSnsMember.setSns_id(userInfo.get("id"));
-        	newSnsMember.setSns_type("naver");
-        	memberDao.inserSnsMember(newSnsMember);
-        	Member member2 = memberDao.getMember(newSnsMember.getId());
-        	session.setAttribute("authMember", member2);
-        	return "redirect:/";
-        }
+		SnsMember snsMember = memberDao.getSnsMember(userInfo.get("id"));
+		if (snsMember != null) {
+			Member member = memberDao.getMember(snsMember.getId());
+			session.setAttribute("loginId", member.getId());
+			session.setAttribute("loginName", member.getName());
+			return "redirect:/";
+		} else {
+			Member member = new Member();
+			member.setId(userInfo.get("email"));
+			member.setEmail(userInfo.get("email"));
+			member.setName(userInfo.get("name"));
+			memberDao.insertMember(member);
+			SnsMember newSnsMember = new SnsMember();
+			newSnsMember.setId(member.getId());
+			newSnsMember.setSns_id(userInfo.get("id"));
+			newSnsMember.setSns_type("naver");
+			memberDao.inserSnsMember(newSnsMember);
+			Member member2 = memberDao.getMember(newSnsMember.getId());
+			session.setAttribute("loginId", member2.getId());
+			session.setAttribute("loginName", member2.getName());
+			return "redirect:/";
+		}
 	}
 
 	@RequestMapping(value = "join", method = RequestMethod.POST)
 	public String join(Member member, Model model) {
-		logger.debug("회원가입 요청 Member: "+member.toString());
-		boolean result= memberDao.insertMember(member);
-		if(result) {
-			logger.debug("가입 성공");
+		String salt = PasswordUtil.makeSalt();
+		member.setSalt(salt);
+		member.setPassword(PasswordUtil.hashingBySHA256(member.getPassword(), salt));
+		boolean result = memberDao.insertMember(member);
+		if (result) {
 			return "redirect:/";
-		}else {
-			logger.debug("가입 실패");
+		} else {
 			model.addAttribute("joinFailed", true);
 			return "customer/joinForm";
 		}
@@ -97,11 +87,9 @@ public class MemberController {
 	@RequestMapping(value = "checkId", method = RequestMethod.POST)
 	public String checkId(String id, Model model) {
 		model.addAttribute("id", id);
-		if(memberDao.getMember(id)!=null) {
-			logger.debug("아이디 있음");
+		if (memberDao.getMember(id) != null) {
 			model.addAttribute("unique", false);
-		}else {
-			logger.debug("아이디 없음");
+		} else {
 			model.addAttribute("unique", true);
 		}
 		return "customer/checkIdForm";
@@ -114,14 +102,11 @@ public class MemberController {
 
 	@RequestMapping(value = "login", method = RequestMethod.POST)
 	public String login(String id, String password, HttpSession session, Model model) {
-		logger.debug("id: "+id+", pw: "+password);
 		Member member = memberDao.getMember(id);
-		if(member == null || member.getPassword().equals(password)) {
-			logger.debug("로그인 실패");
+		if (member == null || !member.getPassword().equals(PasswordUtil.hashingBySHA256(password, member.getSalt()))) {
 			model.addAttribute("loginFailed", true);
 			return "customer/loginForm";
-		}else {
-			logger.debug("로그인 : "+member.toString());
+		} else {
 			session.setAttribute("loginId", member.getId());
 			session.setAttribute("loginName", member.getName());
 			return "redirect:/";
@@ -145,13 +130,14 @@ public class MemberController {
 
 	@RequestMapping(value = "info", method = RequestMethod.POST)
 	public String updateInfo(Member member, Model model, HttpSession session) {
-		member.setId((String) session.getAttribute("loginId"));
-		boolean result= memberDao.updateMember(member);
-		if(result) {
+		Member oldMember = memberDao.getMember((String) session.getAttribute("loginId"));
+		member.setPassword(PasswordUtil.hashingBySHA256(member.getPassword(), oldMember.getSalt()));
+		boolean result = memberDao.updateMember(member);
+		if (result) {
 			Member updatedMember = memberDao.getMember(member.getId());
 			session.setAttribute("authMember", updatedMember);
 			return "redirect:/";
-		}else {
+		} else {
 			model.addAttribute("updateFailed", true);
 			return "customer/infoForm";
 		}

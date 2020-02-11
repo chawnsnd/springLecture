@@ -1,10 +1,21 @@
 package global.sesoc.web5.util;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.ui.Model;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.multipart.MultipartFile;
+
+import global.sesoc.web5.vo.Board;
 
 /**
  * 파일 관련 유틸
@@ -91,5 +102,37 @@ public class FileService {
 		}
 		
 		return result;
+	}
+	/**
+	 * 서버에 저장된 파일을 삭제
+	 * @param fileName 다운로드 시 파일의 이름
+	 * @param fullPath 저장된 파일의 경로와 이름
+	 * @param response HttpServletResponse
+	 * @return 저장된 파일명
+	 */
+	public static void download(String fileName, String fullPath, HttpServletResponse response) {		
+		//원래의 파일명
+		try {
+			response.setHeader("Content-Disposition", " attachment;filename="+ URLEncoder.encode(fileName, "UTF-8"));
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}		
+		//서버의 파일을 읽을 입력 스트림과 클라이언트에게 전달할 출력스트림
+		FileInputStream filein = null;
+		ServletOutputStream fileout = null;
+		
+		try {
+			filein = new FileInputStream(fullPath);
+			fileout = response.getOutputStream();
+			
+			//Spring의 파일 관련 유틸
+			FileCopyUtils.copy(filein, fileout);
+			
+			filein.close();
+			fileout.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
 	}
 }

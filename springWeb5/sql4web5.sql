@@ -11,7 +11,9 @@ create table web5_member (
 );
 
 alter table web5_member add profile	varchar2(200);
-
+alter table web5_member add salt 	varchar2(5);
+ALTER TABLE web5_member MODIFY (password NULL);
+ALTER TABLE web5_member MODIFY (password varchar2(100));
 
 -- SNS 회원 정보 테이블
 create table web5_sns_member (
@@ -36,16 +38,18 @@ create table web5_board (
 	savedfile		varchar2(100)			--첨부파일 저장된 이름
 );
 
+alter table web5_board drop column likes;
+
 --게시판 글 번호에 사용할 시퀀스
 create sequence web5_board_seq;
 
 --게시판 좋아요 정보 테이블
-create table web5_board (
+create table web5_board_like (
 	boardnum 	number 			not null,
 	id 			varchar2(20) 	not null,
-	constraint like_fk foreign key(boardnum)
+	constraint like_fk_board foreign key(boardnum)
 		references web5_board(boardnum) on delete cascade,
-	constraint like_fk foreign key(id)
+	constraint like_fk_member foreign key(id)
 		references web5_member(id) on delete cascade
 );
 
