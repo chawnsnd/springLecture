@@ -52,6 +52,7 @@
 		title = #{title},
 		contents = #{contents},
 		originalfile = #{originalfile}
+		savedfile = #{savedfile}
 	where
 		boardnum = #{boardnum}
 	</update>

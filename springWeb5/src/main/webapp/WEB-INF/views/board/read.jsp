@@ -95,11 +95,13 @@ table.reply td.reply_contents {
 table.reply td.reply_modify {
 	width: 10%;
 	text-align: center;
+	cursor: pointer;
 }
 
 table.reply td.reply_delete {
 	width: 10%;
 	text-align: center;
+	cursor: pointer;
 }
 
 .like_box {
@@ -127,29 +129,107 @@ table.reply td.reply_delete {
 .like_box.like>div{
 	color: salmon;
 }
+.reply_modify_input{
+	width: 100%
+}
 </style>
 <script>
 window.onload = function(){
 	<c:if test="${like}">
 		$("#like_box").addClass("like");
 	</c:if>
+	loadReply();
 }
 function clickLikes(){
 	$.ajax({
+		contentType: "application/x-www-form-urlencoded; charset=UTF-8",
 		url: "like",
 		data: {boardnum: ${board.boardnum}},
 		success: function( data ) {
 			if(data.like){
 				$("#like_box").addClass("like");
-				//좋아요처리
 			}else{
 				$("#like_box").removeClass("like");
-				//안좋아요처리
 			}
 			document.getElementById("like_count").innerHTML = data.likeCount;
 		},
 		dataType: "json"
 	});
+}
+function loadReply(){
+	$.ajax({
+		contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+		url: "<c:url value='/reply/list'/>",
+		data: {boardnum: ${board.boardnum}},
+		success: function( data ) {
+			console.log(data.replyList);
+			document.getElementById("replys").innerHTML = "";
+			data.replyList.forEach((reply)=>{
+				document.getElementById("replys").innerHTML +=
+					"<tr>"+
+					"<th>"+reply.id+"</th>"+
+					"<td class='reply_contents'>"+reply.text+"</td>"+
+					"<td class='reply_modify' id='modify"+reply.replynum+"' onclick='clickModify("+reply.replynum+")'>수정</td>"+
+					"<td class='reply_delete' onclick='clickDelete("+reply.replynum+")'>삭제</td>"+
+					"</tr>"
+				}
+			);
+		},
+		dataType: "json"
+	});
+}
+function clickReplySubmit(){
+	$.ajax({
+		contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+		url: "<c:url value='/reply/write'/>",
+		method: "post",
+		data: {
+			boardnum: ${board.boardnum},
+			text: document.getElementById("reply_submit_input").value
+		},
+		complete: function(data){
+			console.log(data);
+			loadReply();
+		},
+		dataType: "json"
+	});
+}
+
+function clickDelete(num){
+	$.ajax({
+		contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+		url: "<c:url value='/reply/delete'/>",
+		data: {
+			replynum: num
+		},
+		complete: function( data ) {
+			loadReply();
+		},
+		dataType: "json"
+	});
+}
+
+function clickModify(num){
+	var button = document.getElementById("modify"+num);
+	var oldText = button.parentNode.childNodes[1].innerHTML;
+	button.parentNode.childNodes[1].innerHTML =
+		"<td><input type='text' class='reply_modify_input' id='reply_modify_input"+num+"' value='"+oldText+"' placeholder='리플 추가' onkeyup='modify("+num+")'></td>";
+}
+function modify(num){
+	if (window.event.keyCode == 13){
+		$.ajax({
+			contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+			url: "<c:url value='/reply/modify'/>",
+			data: {
+				replynum: num,
+				text: document.getElementById("reply_modify_input"+num).value
+			},
+			complete: function( data ) {
+				loadReply();
+			},
+			dataType: "json"
+		});
+	}
 }
 </script>
 </head>
@@ -185,7 +265,7 @@ function clickLikes(){
 					</div></td>
 			</tr>
 			<tr>
-				<th>파일</th>
+				<th>첨부파일</th>
 				<td><c:if test="${board.originalfile != null}">
 						<a href="download?boardnum=${board.boardnum}">${board.originalfile }</a>
 					</c:if></td>
@@ -198,36 +278,18 @@ function clickLikes(){
 			</c:if>
 			<span onclick="location.href='list'">목록보기</span>
 		</div>
-		<table class="reply">
+		<table id="reply" class="reply">
+		<c:if test="${sessionScope.loginId !=null }">
 			<tr class="reply_submit">
-				<th class="reply_submit_id">aaa</th>
-				<td colspan="2"><input class="reply_submit_input" type="text"
-					placeholder="리플 추가"></td>
-				<td><input type="submit" value="확인"></td>
+				<th class="reply_submit_id">${sessionScope.loginId }</th>
+				<td colspan="2">
+					<input id="reply_submit_input" class="reply_submit_input" type="text" placeholder="리플 추가">
+				</td>
+				<td><input type="button" value="확인" onclick="clickReplySubmit()"></td>
 			</tr>
-			<tr>
-				<th>bbb</th>
-				<td class="reply_contents">bbb가 작성한 리플입니다.22</td>
-				<td class="reply_modify"></td>
-				<td class="reply_delete"></td>
-			</tr>
+		</c:if>
 		</table>
-		<table class="reply">
-			<tr>
-				<th>bbb</th>
-				<td class="reply_contents">bbb가 작성한 리플입니다.</td>
-				<td class="reply_modify"></td>
-				<td class="reply_delete"></td>
-			</tr>
-		</table>
-		<table class="reply">
-			<tr>
-				<th>aaa</th>
-				<td class="reply_contents">리플 내용입니다.</td>
-				<td class="reply_modify">[수정]</td>
-				<td class="reply_delete">[삭제]</td>
-			</tr>
-		</table>
+		<table id="replys" class="reply"></table>
 	</section>
 </body>
 </html>

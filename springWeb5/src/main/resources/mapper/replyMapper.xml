@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="global.sesoc.web5.dao.ReplyMapper">
+
+	<select id="selectReplyByBoardnum" parameterType="int" resultType="reply">
+		select *
+		from web5_reply
+		where boardnum = #{boardnum}
+	</select>
+	
+	<insert id="insertReply" parameterType="reply">
+		insert into web5_reply(
+			replynum,
+			boardnum,
+			id,
+			text
+		) values (
+			web5_reply_seq.nextval,
+			#{boardnum},
+			#{id},
+			#{text}
+		)
+	</insert>
+	
+	<update id="updateReply" parameterType="reply">
+		update web5_reply
+		set
+			text = #{text},
+			inputdate = sysdate
+		where replynum = #{replynum}
+	</update>
+	
+	<delete id="deleteReply" parameterType="int">
+		delete
+		from web5_reply
+		where replynum = #{replynum}
+	</delete>
+	
+	<select id="selectReply" parameterType="int" resultType="reply">
+		select *
+		from web5_reply
+		where replynum = #{replynum}
+	</select>
+
+</mapper>
