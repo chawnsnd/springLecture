@@ -30,6 +30,9 @@ p>span {
 	cursor: pointer;
 	margin: 0 5px;
 }
+.cur_page {
+	font-weight: bold;
+}
 .bottom{
 	text-align: center;
 }
@@ -37,13 +40,29 @@ p>span {
 	float: right;
 }
 </style>
+<script>
+function movePage(page){
+	var searchText = document.getElementById("search_text").value;
+	if(page==null){
+		page = 1;
+	}
+	location.href="list?page="+page+"&searchText="+searchText;
+}
+</script>
 </head>
 <body>
 <%@ include file="../layout/header.jsp" %>
 <section>
 	<h1 class="board_title" onclick="location.href='list'">연습 게시판</h1>
 	<div>
-		<span class="count">전체 : ${boardCount }</span>
+		<span class="count">
+		<c:if test="${searchText != '' }">		
+		${searchText}(으)로 검색 : ${boardCount }
+		</c:if>
+		<c:if test="${searchText == '' }">		
+		전체 : ${boardCount }
+		</c:if>
+		</span>
 		<c:if test="${sessionScope.loginId != null }">
 		<div class="write_btn">
 			<input id="write_button" type="button" value="글쓰기" onclick="location.href='write'">
@@ -80,17 +99,21 @@ p>span {
 	</table>
 	<div class="bottom">
 	<p>
-		<span>◁◁</span><span>◀</span>
-		<c:forEach var="num" begin="1" end="5">
-		<span>${num}</span>
+		<span onclick="movePage(1)">처음</span><span onclick="movePage(${navi.currentPage-1})">◀</span>
+		<c:forEach var="num" begin="${navi.startPageGroup }" end="${navi.endPageGroup}">
+		<c:if test="${navi.currentPage == num}">
+		<span class="cur_page" onclick="location.href='list?page=${num}'">${num}</span>
+		</c:if>
+		<c:if test="${navi.currentPage != num}">
+		<span onclick="movePage(${num})">${num}</span>
+		</c:if>
 		</c:forEach>
-		<span>▶</span><span>▷▷</span>
+		<span onclick="movePage(${navi.currentPage+1})">▶</span><span onclick="movePage(${navi.totalPageCount})">끝</span>
 	</p>
 	<p>
-		<form action="search" method="get">
-			제목 : <input type="text">
-			<input type="submit" value="검색">
-		</form>
+		제목 : <input type="text" id="search_text" value="${searchText }">
+		<input type="submit" value="검색" onclick="movePage()">
+	</p>
 	</div>
 </section>
 <%-- <%@ include file="../layout/footer.jsp" %> --%>

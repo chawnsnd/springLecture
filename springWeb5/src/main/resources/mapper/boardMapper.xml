@@ -34,10 +34,18 @@
 	from web5_board
 	order by boardnum desc
 	</select>
+
+	<select id="selectAllBoardByNaviAndSearchText" resultType="board" parameterType="string">
+	select boardnum, id, title, hits, to_char(inputdate, 'YYYY-MM-DD') as inputdate
+	from web5_board
+	where title like '%'||#{searchText}||'%'
+	order by boardnum desc
+	</select>
 	
-	<select id="selectAllBoardCount" resultType="int">
+	<select id="selectAllBoardCountBySearchText" resultType="int">
 	select count(*)
 	from web5_board
+	where title like '%'||#{searchText}||'%'
 	</select>
 
 	<select id="selectBoard" resultType="board" parameterType="int">

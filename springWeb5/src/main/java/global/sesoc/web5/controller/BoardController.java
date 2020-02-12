@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -21,6 +22,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import global.sesoc.web5.dao.BoardDao;
 import global.sesoc.web5.util.FileService;
+import global.sesoc.web5.util.PageNavigator;
 import global.sesoc.web5.vo.Board;
 
 @Controller
@@ -29,6 +31,8 @@ public class BoardController {
 
 	private static final Logger logger = LoggerFactory.getLogger(BoardController.class);
 	private static final String UPLOAD_PATH = "/home/junwoong/boardfile";
+	private static final int COUNT_PER_PAGE = 10;
+	private static final int PAGE_PER_GROUP = 5;
 
 	@Autowired
 	private BoardDao boardDao;
@@ -41,14 +45,19 @@ public class BoardController {
 	}
 
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public String goToBoard2(Model model) {
-		ArrayList<Board> boardList = boardDao.selectAllBoard();
-//		for (Board board : boardList) {
-//			board.setLikes(boardDao.selectLikeByBoardnum(board.getBoardnum()));
-//		}
-		int boardCount = boardDao.selectAllBoardCount();
+	public String goToBoard2(@RequestParam(value="page", defaultValue = "1") int page,
+			@RequestParam(value="searchText", defaultValue = "") String searchText,
+			Model model) {
+		int boardCount = boardDao.selectAllBoardCountBySearchText(searchText);
+		PageNavigator navi = new PageNavigator(COUNT_PER_PAGE, PAGE_PER_GROUP, page, boardCount);
+		ArrayList<Board> boardList = boardDao.selectAllBoardByNaviAndSearchText(searchText, navi);
+		for (Board board : boardList) {
+			board.setLikes(boardDao.selectLike(board.getBoardnum()));
+		}
 		model.addAttribute("boardList", boardList);
 		model.addAttribute("boardCount", boardCount);
+		model.addAttribute("navi", navi);
+		model.addAttribute("searchText", searchText);
 		return "board/list";
 	}
 

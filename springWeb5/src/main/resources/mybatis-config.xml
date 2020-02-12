@@ -8,6 +8,7 @@
 		<typeAlias type="global.sesoc.web5.vo.SnsMember" alias="snsmember"/>
 		<typeAlias type="global.sesoc.web5.vo.Board" alias="board"/>
 		<typeAlias type="global.sesoc.web5.vo.Reply" alias="reply"/>
+		<typeAlias type="global.sesoc.web5.util.PageNavigator" alias="navi"/>
 	</typeAliases>
 	<mappers>
 		<mapper resource="mapper/memberMapper.xml"/>

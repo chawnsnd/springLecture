@@ -156,12 +156,18 @@
 </style>
 <script src="https://kit.fontawesome.com/74fba7f134.js"
  	crossorigin="anonymous"></script>
+<script>
+function search(){
+	var searchText = document.getElementById("search_text").value;
+	location.href="board/list?searchText="+searchText;
+}
+</script>
 </head>
 <header>
 	<div class="header_top">
 		<div class="header_title" onclick="location.href='<c:url value="/"/>'">SpringWeb5</div>
 		<div class="header_search_bar">
-			<input type="text"> <i class="fas fa-search"></i>
+			<input type="text" id="search_text"> <i class="fas fa-search" onclick="search()"></i>
 		</div>
 		<div class="header_right">
 			<c:if test="${sessionScope.loginId == null }">

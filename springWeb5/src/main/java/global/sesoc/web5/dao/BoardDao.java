@@ -3,10 +3,12 @@ package global.sesoc.web5.dao;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import global.sesoc.web5.util.PageNavigator;
 import global.sesoc.web5.vo.Board;
 
 @Repository
@@ -27,6 +29,11 @@ public class BoardDao {
 	public ArrayList<Board> selectAllBoard() {
 		BoardMapper mapper = session.getMapper(BoardMapper.class);
 		return mapper.selectAllBoard();
+	}
+	public ArrayList<Board> selectAllBoardByNaviAndSearchText(String searchText, PageNavigator navi) {
+		BoardMapper mapper = session.getMapper(BoardMapper.class);
+		RowBounds rb = new RowBounds(navi.getStartRecord(), navi.getCountPerPage());
+		return mapper.selectAllBoardByNaviAndSearchText(searchText, rb);
 	}
 
 	public Board selectBoard(int boardnum) {
@@ -52,9 +59,9 @@ public class BoardDao {
 		}
 	}
 
-	public int selectAllBoardCount() {
+	public int selectAllBoardCountBySearchText(String searchText) {
 		BoardMapper mapper = session.getMapper(BoardMapper.class);
-		return mapper.selectAllBoardCount();
+		return mapper.selectAllBoardCountBySearchText(searchText);
 	}
 
 	public boolean deleteBoard(int boardnum) {
