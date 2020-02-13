@@ -30,6 +30,7 @@ public class BoardDao {
 		BoardMapper mapper = session.getMapper(BoardMapper.class);
 		return mapper.selectAllBoard();
 	}
+	
 	public ArrayList<Board> selectAllBoardByNaviAndSearchText(String searchText, PageNavigator navi) {
 		BoardMapper mapper = session.getMapper(BoardMapper.class);
 		RowBounds rb = new RowBounds(navi.getStartRecord(), navi.getCountPerPage());

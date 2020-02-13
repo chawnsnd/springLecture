@@ -12,8 +12,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.multipart.MultipartFile;
 
 import global.sesoc.web5.dao.MemberDao;
+import global.sesoc.web5.util.FileService;
 import global.sesoc.web5.util.PasswordUtil;
 import global.sesoc.web5.util.SnsOAuth;
 import global.sesoc.web5.vo.Member;
@@ -24,6 +26,7 @@ import global.sesoc.web5.vo.SnsMember;
 public class MemberController {
 
 	private static final Logger logger = LoggerFactory.getLogger(MemberController.class);
+	private static final String UPLOAD_PATH = "/home/junwoong/member-profile";
 
 	@Autowired
 	private MemberDao memberDao;
@@ -129,9 +132,16 @@ public class MemberController {
 	}
 
 	@RequestMapping(value = "info", method = RequestMethod.POST)
-	public String updateInfo(Member member, Model model, HttpSession session) {
+	public String updateInfo(Member member, Model model, HttpSession session, MultipartFile upload) {
 		Member oldMember = memberDao.getMember((String) session.getAttribute("loginId"));
+		member.setId((String) session.getAttribute("loginId"));
 		member.setPassword(PasswordUtil.hashingBySHA256(member.getPassword(), oldMember.getSalt()));
+		logger.debug(upload.getOriginalFilename());
+		if (upload != null) {
+			String savedfile = FileService.saveFile(upload, UPLOAD_PATH);
+			member.setProfile(savedfile);
+		}
+		logger.debug(member.toString());
 		boolean result = memberDao.updateMember(member);
 		if (result) {
 			Member updatedMember = memberDao.getMember(member.getId());

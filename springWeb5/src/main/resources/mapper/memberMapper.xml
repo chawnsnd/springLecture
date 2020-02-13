@@ -48,17 +48,20 @@
 		set
 			password = #{password}
 			,name = #{name}
-			<if test="phone != null">
+			<if test="phone != ''">
 			,phone = #{phone}
 			</if>
-			<if test="address != null">
+			<if test="address != ''">
 			,address = #{address}
 			</if>
-			<if test="email != null">
+			<if test="email != ''">
 			,email = #{email}
 			</if>
+			<if test="profile != null">
+			,profile = #{profile}
+			</if>
 		where
-			id = #{id}password);
+			id = #{id}
 	</update>
 	
 

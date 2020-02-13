@@ -45,10 +45,21 @@ function checkUpdate(){
 	}else if(!checkPassword()){
 		alert("비밀번호가 일치하지 않습니다.")
 		return false;
+	}else if(!checkImage()){
+		alert("프로필 사진은 이미지파일이어야 합니다.")
+		return false;
 	}else{
 		return true;
 	}
-
+}
+function checkImage(){
+	var profile = document.getElementById("profile");
+	console.log(profile.files[0].type);
+	if(profile.files[0].type!="image/jpeg" && profile.files[0].type!="image/png"){
+		return false;
+	}else{
+		return true;
+	}
 }
 function checkNull(){
 	var password = document.getElementById("password");
@@ -120,6 +131,13 @@ function checkPassword(){
 		<th colspan="3">
 			선택입력
 		</th>
+	</tr>
+	<tr>
+		<th>프로필</th>
+		<td colspan="2">
+			<img src="${member.profile }" />
+			<input type="file" id="profile" name="upload">
+		</td>
 	</tr>
 	<tr>
 		<th>이메일</th>

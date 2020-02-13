@@ -12,4 +12,5 @@ public class Member {
 	private String address;
 	private String email;
 	private String salt;
+	private String profile;
 }

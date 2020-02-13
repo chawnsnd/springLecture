@@ -45,12 +45,12 @@ public class BoardController {
 	}
 
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public String goToBoard2(@RequestParam(value="page", defaultValue = "1") int page,
-			@RequestParam(value="searchText", defaultValue = "") String searchText,
-			Model model) {
+	public String goToBoard2(@RequestParam(value = "page", defaultValue = "1") int page,
+			@RequestParam(value = "searchText", defaultValue = "") String searchText, Model model) {
 		int boardCount = boardDao.selectAllBoardCountBySearchText(searchText);
 		PageNavigator navi = new PageNavigator(COUNT_PER_PAGE, PAGE_PER_GROUP, page, boardCount);
 		ArrayList<Board> boardList = boardDao.selectAllBoardByNaviAndSearchText(searchText, navi);
+
 		for (Board board : boardList) {
 			board.setLikes(boardDao.selectLike(board.getBoardnum()));
 		}
@@ -122,8 +122,9 @@ public class BoardController {
 		boardDao.updateHits(boardnum);
 		Board board = boardDao.selectBoard(boardnum);
 		board.setLikes(boardDao.selectLike(board.getBoardnum()));
-		if(session.getAttribute("loginId")!=null) {
-			model.addAttribute("like", boardDao.selectLikeCount(boardnum, (String) session.getAttribute("loginId"))>=1);
+		if (session.getAttribute("loginId") != null) {
+			model.addAttribute("like",
+					boardDao.selectLikeCount(boardnum, (String) session.getAttribute("loginId")) >= 1);
 		}
 		model.addAttribute("board", board);
 		return "board/read";
@@ -159,10 +160,7 @@ public class BoardController {
 		String json = "";
 		ObjectMapper mapper = new ObjectMapper();
 		HashMap<String, Object> like = new HashMap<>();
-		if(session.getAttribute("loginId")==null) {
-			return null;
-		}
-		if (boardDao.selectLikeCount(boardnum, (String) session.getAttribute("loginId"))>=1) {
+		if (boardDao.selectLikeCount(boardnum, (String) session.getAttribute("loginId")) >= 1) {
 			boardDao.deleteLike(boardnum, (String) session.getAttribute("loginId"));
 			like.put("like", false);
 		} else {

@@ -162,15 +162,20 @@ function loadReply(){
 		url: "<c:url value='/reply/list'/>",
 		data: {boardnum: ${board.boardnum}},
 		success: function( data ) {
-			console.log(data.replyList);
 			document.getElementById("replys").innerHTML = "";
 			data.replyList.forEach((reply)=>{
 				document.getElementById("replys").innerHTML +=
 					"<tr>"+
 					"<th>"+reply.id+"</th>"+
 					"<td class='reply_contents'>"+reply.text+"</td>"+
+					<c:if test="${sessionScope.loginId != null && sessionScope.loginId == reply.id}">
 					"<td class='reply_modify' id='modify"+reply.replynum+"' onclick='clickModify("+reply.replynum+")'>수정</td>"+
 					"<td class='reply_delete' onclick='clickDelete("+reply.replynum+")'>삭제</td>"+
+					</c:if>
+					<c:if test="${sessionScope.loginId == null || sessionScope.loginId != reply.id}">
+					"<td class='reply_modify'></td>"+
+					"<td class='reply_delete'></td>"+
+					</c:if>
 					"</tr>"
 				}
 			);
