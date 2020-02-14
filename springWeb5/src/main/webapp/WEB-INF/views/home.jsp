@@ -73,6 +73,7 @@
 			<a href="<c:url value="/member/logout"/>">로그아웃</a>
 			</c:if>
 		</div>
+		<button onclick="location.href='kakao'">카카오</button>
 	</section>
 	<%@ include file="layout/footer.jsp"%>
 </body>

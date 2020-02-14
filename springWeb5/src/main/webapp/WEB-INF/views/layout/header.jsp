@@ -159,7 +159,7 @@
 <script>
 function search(){
 	var searchText = document.getElementById("search_text").value;
-	location.href="board/list?searchText="+searchText;
+	location.href="<c:url value='/board/list'/>"+"?searchText="+searchText;
 }
 </script>
 </head>
