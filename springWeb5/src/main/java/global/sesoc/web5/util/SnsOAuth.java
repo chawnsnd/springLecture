@@ -38,7 +38,7 @@ public class SnsOAuth {
 	
 	public Map<String, String> getUserInfo() {
 		HttpHeaders headers = new HttpHeaders();
-        headers.set("Authorization",  "Bearer "+accessToken);        
+        headers.set("Authorization",  "Bearer "+accessToken);
         HttpEntity<String> entity = new HttpEntity<String>(headers);
         Map<String , String> userInfo = (Map<String , String>) restTemplate
         		.exchange("https://openapi.naver.com/v1/nid/me", HttpMethod.GET, entity, Map.class)
