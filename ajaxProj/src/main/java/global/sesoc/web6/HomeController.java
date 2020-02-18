@@ -50,5 +50,4 @@ public class HomeController {
 	public String goJq1(Locale locale, Model model) {
 		return "jq1";
 	}
-	
 }
