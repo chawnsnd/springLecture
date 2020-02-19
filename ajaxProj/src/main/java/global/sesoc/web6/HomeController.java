@@ -50,4 +50,9 @@ public class HomeController {
 	public String goJq1(Locale locale, Model model) {
 		return "jq1";
 	}
+
+	@RequestMapping(value = "/jq/jq2", method = RequestMethod.GET)
+	public String goJq2(Locale locale, Model model) {
+		return "jq2";
+	}
 }

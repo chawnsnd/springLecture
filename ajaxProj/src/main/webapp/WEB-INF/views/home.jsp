@@ -18,6 +18,7 @@ function test1(){
 	<li><a href="js/js1">JavaScript 복습 1</a></li>
 	<li><a href="javascript:test1()">JavaScript 복습 2</a></li>
 	<li><a href="jq/jq1">jQuery 기초</a></li>
+	<li><a href="jq/jq2">jQuery 2</a></li>
 </ul>
 </body>
 </html>
