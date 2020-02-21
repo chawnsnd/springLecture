@@ -8,15 +8,6 @@
 <script src="../resources/js/jquery-3.4.1.min.js"></script>
 <script>
 $(document).ready(()=>{
-	var imgs = ['https://s.pstatic.net/shopping.phinf/20200218_22/c66d8628-5411-495a-9ac7-6fc0662dd804.jpg',
-		'https://s.pstatic.net/static/www/mobile/edit/2020/0219/cropImg_166x108_24037379203091761.jpeg',
-		'https://s.pstatic.net/static/www/mobile/edit/2020/0217/mobile_10491591820.jpg'];
-	var curIdx = 0;	
-	initImgSlider(imgs);
-	$('#prev').on('click', prevImg);
-	$('#next').on('click', nextImg);
-	
-
 	$('#btn1').on('click', test1);
 	$('#btn2').on('click', test2);
 	$('#btn3').on('click', test3);
@@ -25,12 +16,6 @@ $(document).ready(()=>{
 	$('#img1').on('mouseenter', test6);
 	$('#img1').on('mouseleave', test7);
 
-	var imgIdx = 0;
-// 	$('#img1').on('click', function(){
-// 		imgIdx++;
-// 		if(imgIdx >= imgs.length) imgIdx = 0;
-// 		$(this).attr('src', imgs[imgIdx]);
-// 	});
 
 	$('#text1').on('keyup', test8);
 	$('#text2').on('click', function(){
@@ -48,24 +33,35 @@ $(document).ready(()=>{
 		var n = $(this).attr('data-num');
 		alert(n);
 	})
+	var idx = 0;
 	$('#btn4').on('click', function(){
 		var imgs = ['https://s.pstatic.net/shopping.phinf/20200218_22/c66d8628-5411-495a-9ac7-6fc0662dd804.jpg',
 			'https://s.pstatic.net/static/www/mobile/edit/2020/0219/cropImg_166x108_24037379203091761.jpeg',
 			'https://s.pstatic.net/static/www/mobile/edit/2020/0217/mobile_10491591820.jpg'];
-		var tag = '';
-		$.each(imgs, function(index, name){
-			tag += '<p><img src="'+name+'"></p>';
-		});
+		var tag = '<p><img src="'+imgs[0]+'" class="imgs"></p>';
 		$("#output").html(tag);
+
+		$('.imgs').on('click', function(){
+			idx = ++idx % imgs.length;
+			$(this).attr('src', imgs[idx]);
+		})
 	});
+
+	$('input[type="text"]').on({
+		focus: function () { 
+			$(this).toggleClass("input2");
+		},
+		blur: function () { 
+			$(this).toggleClass("input2");
+		}
+	});
+	
 });
 
 function test1(){
 	alert("test1 함수 실행");
 }
 function test2(){
-// 	$('#btn1').off();
-// 	$('#btn1').off('click');
 	$('#btn1').off('click', test1);
 }
 function test3(){
@@ -78,33 +74,13 @@ function test5(){
 	alert("test5 함수 실행");
 }
 function test6(){
-// 	var width = $(this).width();
-// 	var height = $(this).height();
 	$(this).css('width', $(this).width()*2);
-// 	$(this).css('height', height*2);
 }
 function test7(){
-// 	var width = $(this).width();
-// 	var height = $(this).height();
 	$(this).css('width', $(this).width()/2);
-// 	$(this).css('height', height/2);
 }
 function test8(){
 	alert("test8 함수 실행");
-}
-
-function initImgSlider(imgs){
-	
-	$.each(imgs, function(index, img){
-		$('#slider-imgs').append('<img src="'+img+'">');
-	});
-	for(var i=0; i<imgs.length; i++){
-		if(curIdx == i){
-			$("#slider-nav").append('<span>●</span>');
-		}else{
-			$("#slider-nav").append('<span>○</span>');
-		}
-	};
 }
 </script>
 <style>
@@ -119,35 +95,13 @@ function initImgSlider(imgs){
 	background-color: black;
 	color: white;
 }
-
-#slider-container{
-	display: inline-block;
-	position: relative;
+.input1{
+	border: 1px solid black;
+	background: gray;
 }
-
-.slider-btn{
-	position: absolute;
-	top: 50%;
-	cursor: pointer;
-}
-.slider-btn#prev{
-	left: 0;
-}
-.slider-btn#next{
-	right: 0;
-}
-#slider-imgs{
-	border: 1px solid red;
-}
-#slider-img{
-	width: 500px;
-	height: 300px;
-}
-#slider-nav{
-	position: absolute;
-	bottom: 0%;
-	cursor: pointer;
-	left: 50%;
+.input2{
+	border: 2px dotted red;
+	background: yellow;
 }
 </style>
 <body>
@@ -169,19 +123,15 @@ function initImgSlider(imgs){
 		<label><input type="checkbox">체크박스2</label>
 		<label><input type="checkbox">체크박스3</label>
 	</p>
-	<!-- $("#img").attr("src") -->
-	<p>
-		<div id="slider-container">
-			<span id="prev" class="slider-btn">prev</span>
-			<div id="slider-imgs"></div>
-			<span id="next" class="slider-btn">next</span>
-			<div id="slider-nav"></div>
-		</div>
-	</p>
+
 	<!-- $("#text1").val() -->
 	<p><input type="text" id="text1"></p>
 	<p><span id="text2" class="click">Click</span></p>
 	<p><span id="text3" class="click">Click</span></p>
 	<p><span id="text4" class="click">Click</span></p>
+	
+	<p><input type="text" class="input1"></p>
+	<p><input type="text" class="input1"></p>
+	<p><input type="text" class="input1"></p>
 </body>
 </html>
