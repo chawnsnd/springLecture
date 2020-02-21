@@ -55,6 +55,11 @@ $(document).ready(()=>{
 			$(this).toggleClass("input2");
 		}
 	});
+
+	$('#textInput').on('keyup', function(){
+		var length = $(this).val().length;
+		$('#countDiv').text(length);
+	});
 	
 });
 
@@ -133,5 +138,10 @@ function test8(){
 	<p><input type="text" class="input1"></p>
 	<p><input type="text" class="input1"></p>
 	<p><input type="text" class="input1"></p>
+	
+	<p><input type="text" id="textInput"></p>
+	글자수 : <div id="countDiv">0</div>
+	
+	<br><br><br><br><br><br><br><br><br>
 </body>
 </html>
