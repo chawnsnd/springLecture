@@ -40,7 +40,7 @@ function join(param){
 <body>
 
 아이디 : <input type="text" id="id"><br>
-패스워드 : <input type="text" id="password"><br>
+패스워드 : <input type="password" id="password"><br>
 <button id="join_btn">가입</button>
 </body>
 </html>

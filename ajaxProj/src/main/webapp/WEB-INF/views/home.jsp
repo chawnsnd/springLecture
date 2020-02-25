@@ -20,6 +20,7 @@ function test1(){
 	<li><a href="jq/jq1">jQuery 기초</a></li>
 	<li><a href="jq/jq2">jQuery 배열</a></li>
 	<li><a href="jq/jq3">jQuery 이벤트</a></li>
+	<li><a href="ajax/aj1">ajax 연습</a></li>
 </ul>
 </body>
 </html>

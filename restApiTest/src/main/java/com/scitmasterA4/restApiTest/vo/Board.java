@@ -1,4 +1,4 @@
-package com.scitmasterA4.restApiTest;
+package com.scitmasterA4.restApiTest.vo;
 
 public class Board {
 

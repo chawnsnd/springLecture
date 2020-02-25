@@ -1,6 +1,7 @@
-package com.scitmasterA4.restApiTest;
+package com.scitmasterA4.restApiTest.controller;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
@@ -13,6 +14,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.scitmasterA4.restApiTest.vo.User;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -43,12 +46,19 @@ public class UserApiController {
 		users.add(user);
 		String jwtString = Jwts.builder()
 				.setHeaderParam("typ", "JWT")
-				.setHeaderParam("expiresIn", "1y")
+				.setHeaderParam("expiresIn", "1h")
+				.setExpiration(new Date(System.currentTimeMillis()+1*(1000*60*60*24)))
 				.setSubject("id")
 				.signWith(SignatureAlgorithm.HS512, user.getId())
 				.compact();
-		Cookie cookie = new Cookie("access_token", jwtString);
-		res.addCookie(cookie);
+		Cookie accessToken = new Cookie("access_token", jwtString);
+		accessToken.setPath("/restApiTest");
+		accessToken.setMaxAge(60*60*1);
+		Cookie signedUserNo = new Cookie("signed_user_no", Integer.toString(user.getUserno()));
+		signedUserNo.setPath("/restApiTest");
+		signedUserNo.setMaxAge(60*60*1);
+		res.addCookie(accessToken);
+		res.addCookie(signedUserNo);
 		return new ResponseEntity<String>(HttpStatus.OK);
 	}
 
@@ -63,7 +73,7 @@ public class UserApiController {
 //		}
 //		return new ResponseEntity<String>(HttpStatus.OK);
 //	}
-//
+
 //	@DeleteMapping(value = "/board/{boardno}", produces = "application/json;charset=UTF-8")
 //	public ResponseEntity<String> deleteBoard(@PathVariable int boardno) {
 //		for (Board board : boards) {

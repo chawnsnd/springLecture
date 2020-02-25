@@ -45,5 +45,10 @@ public class HomeController {
 	public String goJoin() {
 		return "join";
 	}
+
+	@RequestMapping(value= "/templatePractice", method = RequestMethod.GET)
+	public String goTemplate() {
+		return "templatePractice";
+	}
 	
 }
