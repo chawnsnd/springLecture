@@ -4,28 +4,16 @@
 <mapper namespace="global.sesoc.web5.dao.BoardMapper">
 
 	<insert id="insertBoard" parameterType="board">
-	insert into web5_board(
+	insert into tbl_user(
 		boardnum,
 		id,
 		title,
-		contents
-		<if test="originalfile != null">
-		, originalfile
-		</if>
-		<if test="savedfile != null">
-		, savedfile
-		</if>
+		content
 	)values(
-		web5_board_seq.nextval,
+		web5_board.nextval,
 		#{id},
 		#{title},
 		#{contents}
-		<if test="originalfile != null">
-		, #{originalfile}
-		</if>
-		<if test="savedfile != null">
-		, #{savedfile}
-		</if>
 	)
 	</insert>
 	

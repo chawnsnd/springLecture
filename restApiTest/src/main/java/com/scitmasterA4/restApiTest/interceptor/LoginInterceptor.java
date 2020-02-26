@@ -1,5 +1,7 @@
 package com.scitmasterA4.restApiTest.interceptor;
 
+import java.util.Map;
+
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -7,6 +9,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
+
+import com.scitmasterA4.restApiTest.util.JwtUtil;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
@@ -26,7 +30,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 			throws Exception {
 
 		Cookie[] cookies = request.getCookies();
-		String accessToken = "";
+		String accessToken = null;
 		if(cookies != null) {
 			for (Cookie cookie : cookies) {
 				if(cookie.getName().equals("access_token")) {
@@ -34,19 +38,18 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 				}
 			}
 		}
-		System.out.println("accessToken:"+accessToken);
 		try {
-			Jws<Claims> claims = Jwts.parser()
-					  .setSigningKey("secret".getBytes("UTF-8"))
-					  .parseClaimsJws(accessToken);
-			String scope = (String) claims.getBody().get("scope");
-			System.out.println(scope);
-		}catch (SignatureException e) {
-			response.setStatus(400);
+			if(accessToken != null && JwtUtil.isUsable(accessToken)){
+				int userno = (Integer) JwtUtil.get(accessToken, "userno");
+				request.setAttribute("userno", userno);
+				return super.preHandle(request, response, handler);
+			}else{
+				response.setStatus(401);
+				return false;
+			}
+		}catch(Exception e) {
+			response.setStatus(405);
 			return false;
 		}
-
-		// 로그인 된 경우 요청한 경로로 진행
-		return super.preHandle(request, response, handler);
 	}
 }

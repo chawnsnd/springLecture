@@ -21,8 +21,7 @@ $(document).ready(function(){
 	})
 	$("#info_btn").on("click", function(){
 		var accessToken = getCookie("access_token");
-		var signedUserNo = getCookie("signed_user_no");
-		getUserInfo(accessToken, signedUserNo);
+		getUserInfo(accessToken);
 	})
 })
 function login(param){
@@ -41,15 +40,20 @@ function login(param){
 		}
 	});
 }
-function getUserInfo(accessToken, signedUserNo){
+function getUserInfo(accessToken){
 	$.ajax({
-		url: "users/info/"+signedUserNo,
+		url: "users/info",
 		method: "get",
-		success: function(res) {
-			console.log(res)
+		contentType: "application/json",
+		success: function(user,xhr, aaa) {
+			console.log(user)
+			console.log(xhr)
+			console.log(aaa)
+			console.log("썽공")
 		},
 		error: function(e){
 			console.log(e);
+			console.log("씰패")
 		},
 		complete: function(res){
 		}
@@ -74,14 +78,10 @@ function getCookie (cookieName){
 <a href="boardList">게시판</a>
 <a href="templatePractice">탬플릿</a>
 <p>
-<div id="login-template" class="template">
-{{#if}}
 아이디 : <input type="text" id="id"><br>
 패스워드 : <input type="password" id="password"><br>
-{{/if}}
 <button id="login_btn">로그인</button>
 <a href="joinForm">회원가입</a>
-</div>
 <br>
 <button id="info_btn">회원정보</button>
 </body>

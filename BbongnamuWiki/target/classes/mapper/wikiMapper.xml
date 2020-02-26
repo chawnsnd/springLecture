@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="wiki.bbongnamu.WikiMapper">
+
+	<insert id="insertWiki" parameterType="wiki">
+		insert into tbl_wiki(
+			num,
+			title,
+			content,
+		)values(
+			seq_wiki.nextval,
+			#{id},
+			#{title},
+			#{contents}
+		)
+	</insert>
+	
+	<select id="selectWiki" resultType="wiki">
+		select *
+		from tbl_wiki
+		where num = #{num}
+	</select>
+
+	<select id="selectWikiByTitle" resultType="wiki">
+		select *
+		from tbl_wiki
+		where title like '%'||#{keyword}||'%'
+	</select>
+
+	<select id="selectWikiByContent" resultType="wiki">
+		select *
+		from tbl_wiki
+		where content like '%'||#{keyword}||'%'
+	</select>
+	
+	<update id="updateWiki" parameterType="int">
+		update tbl_wiki
+		set
+			title = #{title}
+			content = #{content}
+		where num = #{num}
+	</update>
+
+	<update id="updateWikiToDelete" parameterType="int">
+		update tbl_wiki
+		set
+			content = ''
+		where num = #{num}
+	</update>	
+</mapper>

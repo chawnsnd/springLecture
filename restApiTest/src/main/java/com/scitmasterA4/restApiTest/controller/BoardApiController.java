@@ -42,7 +42,8 @@ public class BoardApiController {
 
 	@PostMapping(value = "/boards", produces = "application/json;charset=UTF-8")
 	public ResponseEntity<String> postBoard(@RequestBody Board board) {
-		board.setBoardno(cnt++);
+		board.setBoardno(cnt);
+		cnt++;
 		boards.add(board);
 		return new ResponseEntity<String>(HttpStatus.OK);
 	}
