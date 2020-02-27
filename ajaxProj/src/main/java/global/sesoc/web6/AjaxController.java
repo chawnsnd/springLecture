@@ -32,4 +32,40 @@ public class AjaxController {
 		logger.debug("ajax2 왔다감");
 		return str1+", "+str2;
 	}
+
+	@ResponseBody
+	@RequestMapping(value = "/insert1", method = RequestMethod.POST)
+	public void insert1(String name, String age, String phone) {
+		logger.debug("전달된 값 : {}, {}, {}", name, age, phone);
+		return;
+	}
+
+	@ResponseBody
+	@RequestMapping(value = "/insert2", method = RequestMethod.POST)
+	public void insert2(Person person) {
+		logger.debug("전달된 값 : {}", person);
+		return;
+	}
+
+	@ResponseBody
+	@RequestMapping(value = "/jsontest1", method = RequestMethod.GET)
+	public Person jsontest1() {
+		Person person1 = new Person();
+		person1.setName("afd");
+		person1.setAge(23);
+		person1.setPhone("00001");
+		logger.debug("전달된 값 : {}", person1);
+		return person1;
+	}
+
+	@ResponseBody
+	@RequestMapping(value = "/jsontest2", method = RequestMethod.GET)
+	public Person jsontest2() {
+		Person person2 = new Person();
+		person2.setName("afd");
+		person2.setAge(23);
+		person2.setPhone("00001");
+		logger.debug("전달된 값 : {}", person2);
+		return person2;
+	}
 }

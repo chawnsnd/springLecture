@@ -11,20 +11,20 @@
 <script src="./resources/js/handlebars-custom.js"></script>
 <script>
 $(document).ready(function(){
-	getBoard(1);
+	getBoard(2);
 })
 function getBoard(boardno){
 	$.ajax({
 		url: "boards/"+boardno,
 		method: "get",
-		success: function(board) {
+		success: function(board) { 
 			console.log(board);
+			bind("#template1", board);
 		},
 		error: function(res){
 			console.log(res);
 		},
 		complete: function(board){
-			bind("#template1", board);
 		},
 		dataType: "json"
 	});

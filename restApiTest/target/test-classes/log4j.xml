@@ -12,7 +12,7 @@
 	
 	<!-- Application Loggers -->
 	<logger name="com.scitmasterA4.restApiTest">
-		<level value="info" />
+		<level value="debug" />
 	</logger>
 	
 	<!-- 3rdparty Loggers -->
