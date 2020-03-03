@@ -7,8 +7,6 @@
 <meta charset="UTF-8">
 <title>뽕나무위키</title>
 <link rel="shortcut icon" href="../resources/favicon.ico">
-<link href="../resources/css/layout.css" type="text/css"
-	rel="stylesheet">
 </head>
 <body>
 	<%@ include file="../layout/header.jsp"%>

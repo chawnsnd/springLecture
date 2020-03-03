@@ -7,8 +7,6 @@
 <meta charset="UTF-8">
 <title>${wiki.title}(${wiki.historynum}판으로 되돌리기) - 뽕나무위키</title>
 <link rel="shortcut icon" href="../resources/favicon.ico">
-<link href="../resources/css/layout.css" type="text/css"
-	rel="stylesheet">
 <style>
 #textarea_content {
 	width: 100%;
@@ -26,7 +24,7 @@
 	<main>
 		<%@ include file="../layout/aside.jsp"%>
 		<article>
-			<h1 onclick="location.href='view?title=${wiki.title}'">${wiki.title} (${wiki.historynum}판으로 되돌리기)</h1>
+			<h1 class="pointer underline" onclick="location.href='view?title=${wiki.title}'">${wiki.title} (${wiki.historynum}판으로 되돌리기)</h1>
 			<form id="revert_form" action="revert" method="post"
 				onsubmit="return check()">
 				<p>
@@ -38,7 +36,7 @@
 				</p>
 				<input type="text" name="title" value="${wiki.title}"
 					hidden="hidden"> <input type="text" name="historynum"
-					value="${wiki.historynum}" hidden="hidden"> <input
+					value="${wiki.historynum}" hidden="hidden"> <input class="blue fill right"
 					type="submit" value="되돌리기">
 			</form>
 		</article>

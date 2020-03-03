@@ -40,6 +40,25 @@ function login() {
 	})
 }
 </script>
+<style>
+#login_form{
+	display: inline-block;
+	margin-left: 230px;
+}
+#login_input{
+	margin: 20px 0;
+}
+#login_input input {
+	width: 500px;
+	padding: 10px;
+}
+#btns{
+	float: right;
+}
+.item{
+	margin-bottom: 15px;
+}
+</style>
 </head>
 <body>
 	<%@ include file="../layout/header.jsp"%>
@@ -48,14 +67,20 @@ function login() {
 		<article>
 			<h1>로그인</h1>
 			<form id="login_form">
-				<div><b>아이디</b></div>
-				<div><input type="text" id="form_id" name="id"></div>
-				<div><b>비밀번호</b></div>
-				<div><input type="password" id="form_password" name="password"></div>
-				<div id="login_msg"></div>
-				<div>
-					<input type="submit" id="form_submit" value="로그인">
-					<a href="<c:url value="/user/join" />">회원가입</a>
+				<div id="login_input">
+					<div class="item">
+					<div><b>아이디</b></div>
+					<div><input type="text" id="form_id" name="id"></div>
+					</div>
+					<div class="item">
+					<div><b>비밀번호</b></div>
+					<div><input type="password" id="form_password" name="password"></div>
+					</div>
+					<div class="item" id="login_msg"></div>
+				</div>
+				<div id="btns">
+					<input class="blue fill" type="submit" id="form_submit" value="로그인">
+					<button onclick="location.href='<c:url value="/user/join" />'">회원가입</button>
 				</div>
 			</form>
 		</article>

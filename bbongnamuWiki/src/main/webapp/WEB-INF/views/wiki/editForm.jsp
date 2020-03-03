@@ -7,9 +7,6 @@
 <meta charset="UTF-8">
 <title>${wiki.title}(편집)- 뽕나무위키</title>
 <link rel="shortcut icon" href="../resources/favicon.ico">
-<link href="../resources/css/layout.css" type="text/css"
-	rel="stylesheet">
-<script type="text/javascript" src="../resources/js/jquery-3.4.1.min.js"></script>
 <script>
 	function check() {
 		if ($("#agree_check").is(":checked")) {
@@ -37,15 +34,11 @@
 	<main>
 		<%@ include file="../layout/aside.jsp"%>
 		<article>
-			<h1 onclick="location.href='view?title=${wiki.title}'">${wiki.title} 
-			<c:if test="wiki.historynum == 0">
-			(새로 작성)
-			</c:if>
-			<c:if test="wiki.historynum != 0">
-			(${wiki.historynum}판 편집)
-			</c:if>
+			<h1 class="pointer underline" onclick="location.href='view?title=${wiki.title}'">${wiki.title} (편집)
 			</h1>
-			<a href="delete?title=${wiki.title}">삭제</a>
+			<div class="btn_group">
+				<button class="red" onclick="location.href='delete?title=${wiki.title}'">삭제</button>
+			</div>
 			<form id="edit_form" action="edit" method="post"
 				onsubmit="return check()">
 				<p>
@@ -63,7 +56,7 @@
 						충분하다는 데 동의하는 것입니다. 이 동의는 철회할 수 없습니다.
 					</label>
 				</p>
-				<input type="submit" value="저장">
+				<input class="blue fill right" type="submit" value="저장">
 			</form>
 		</article>
 	</main>

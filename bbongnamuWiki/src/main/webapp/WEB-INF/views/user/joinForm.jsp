@@ -98,6 +98,25 @@
 		})
 	}
 </script>
+<style>
+#join_form{
+	display: inline-block;
+	margin-left: 230px;
+}
+#join_input{
+	margin: 20px 0;
+}
+#join_input input {
+	width: 500px;
+	padding: 10px;
+}
+#btns{
+	float: right;
+}
+.item{
+	margin-bottom: 15px;
+}
+</style>
 </head>
 <body>
 	<%@ include file="../layout/header.jsp"%>
@@ -106,13 +125,32 @@
 		<article>
 			<h1>회원가입</h1>
 			<form id="join_form">
-				<div><b>아이디</b></div>
-				<div><input type="text" id="form_id" name="id"><span id="id_check"></span></div>
-				<div><b>비밀번호</b></div>
-				<div><input type="password" id="form_password" name="password"><span id="password_check"></span></div>
-				<div><b>비밀번호 재입력</b></div>
-				<div><input type="password" id="form_password2"><span id="password_check2"></span></div>
-				<div><input type="submit" id="form_submit" value="가입"></div>
+				<div id="join_input">
+					<div class="item">
+					<div><b>아이디</b></div>
+					<div>
+						<input type="text" id="form_id" name="id">
+						<div id="id_check"></div>
+					</div>
+					</div>
+					<div class="item">
+					<div><b>비밀번호</b></div>
+					<div>
+						<input type="password" id="form_password" name="password">
+						<div id="password_check"></div>
+					</div>
+					</div>
+					<div class="item">
+					<div><b>비밀번호 재입력</b></div>
+					<div>
+						<input type="password" id="form_password2">
+						<div id="password_check2"></div>
+					</div>
+					</div>
+				</div>
+				<div id="btns">
+					<div><input class="blue fill" type="submit" id="form_submit" value="회원가입"></div>
+				</div>
 			</form>
 		</article>
 	</main>

@@ -7,8 +7,6 @@
 <meta charset="UTF-8">
 <title>${keyword}검색결과- 뽕나무위키</title>
 <link rel="shortcut icon" href="../resources/favicon.ico">
-<link href="../resources/css/layout.css" type="text/css"
-	rel="stylesheet">
 <script>
 function movePage(page){
 	if(page==null){
@@ -36,6 +34,9 @@ function movePage(page){
 	max-height: 80px;
     word-break: break-all;	
 }
+#search_result{
+	margin-bottom: 20px;
+}
 .cur_page {
 	font-weight: bold;
 }
@@ -49,6 +50,8 @@ function movePage(page){
 			<h1>"${keyword}" 검색결과</h1>
 			> 찾는 문서가 없나요? 문서로 새로 작성할 수 있습니다. <a href="edit?title=${keyword}">[새로운
 				문서 작성하기]</a>
+			<hr>
+			<div id="search_result">
 			<c:if test="${wikisByTitle.size() == 0}">
 			검색된 문서가 없습니다.
 			</c:if>
@@ -60,17 +63,16 @@ function movePage(page){
 				</div>
 				</c:forEach>
 			</c:if>
-			<div>
-			<span onclick="movePage(1)">처음</span><span onclick="movePage(${pageNavigator.currentPage-1})">◀</span>
-			<c:forEach var="num" begin="${pageNavigator.startPageGroup }" end="${pageNavigator.endPageGroup}">
-			<c:if test="${pageNavigator.currentPage == num}">
-			<span class="cur_page" onclick="location.href='search?keyword=${keyword}+&page=${num}'">${num}</span>
-			</c:if>
-			<c:if test="${pageNavigator.currentPage != num}">
-			<span onclick="movePage(${num})">${num}</span>
-			</c:if>
-			</c:forEach>
-			<span onclick="movePage(${pageNavigator.currentPage+1})">▶</span><span onclick="movePage(${pageNavigator.totalPageCount})">끝</span>
+			</div>
+			<div class="btn_group right">
+				<c:forEach var="num" begin="${pageNavigator.startPageGroup }" end="${pageNavigator.endPageGroup}">
+				<c:if test="${pageNavigator.currentPage == num}">
+				<span class="btn blue fill" onclick="location.href='search?keyword=${keyword}&page=${num}'">${num}</span>
+				</c:if>
+				<c:if test="${pageNavigator.currentPage != num}">
+				<span class="btn" onclick="movePage(${num})">${num}</span>
+				</c:if>
+				</c:forEach>
 			</div> 
 		</article>
 	</main>

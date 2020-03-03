@@ -6,9 +6,10 @@ body{
 }
 
 header{
-	padding: 5px 117px;
+	padding: 5px 0px;
 	background-color: palevioletred;
 	color: white;
+	border-bottom: 5px solid plum;
 }
 
 main{
@@ -21,7 +22,6 @@ main{
 	min-height: 1000px;
 	display: flex;
 }
-
 aside{
 	flex: 1;
 	border-right: 1px solid #ccc;

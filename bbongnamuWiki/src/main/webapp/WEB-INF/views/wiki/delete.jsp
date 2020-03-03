@@ -7,8 +7,6 @@
 <meta charset="UTF-8">
 <title>${title}(삭제)- 뽕나무위키</title>
 <link rel="shortcut icon" href="../resources/favicon.ico">
-<link href="../resources/css/layout.css" type="text/css" rel="stylesheet">
-<script type="text/javascript" src="../resources/js/jquery-3.4.1.min.js"></script>
 <script>
 	function check() {
 		if ($("#agree_check").is(":checked")) {
@@ -30,7 +28,7 @@
 	<main>
 		<%@ include file="../layout/aside.jsp"%>
 		<article>
-			<h1 onclick="location.href='view?title=${title}'">${title} (삭제)</h1>
+			<h1 class="pointer underline" onclick="location.href='view?title=${title}'">${title} (삭제)</h1>
 			<form id="delete_form" action="delete" method="post" onsubmit="return check()">
 				<p>
 					설명<br>
@@ -42,7 +40,7 @@
 					</label>
 				</p>
 				<input type="text" name="title" value="${title}" hidden="hidden">
-				<input type="submit" value="삭제">
+				<input class="red right fill" type="submit" value="삭제">
 			</form>
 		</article>
 	</main>

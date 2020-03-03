@@ -7,21 +7,33 @@
 <meta charset="UTF-8">
 <title>${title}(역사)- 뽕나무위키</title>
 <link rel="shortcut icon" href="../resources/favicon.ico">
-<link href="../resources/css/layout.css" type="text/css"
-	rel="stylesheet">
 </head>
 <body>
 	<%@ include file="../layout/header.jsp"%>
 	<main>
 		<%@ include file="../layout/aside.jsp"%>
 		<article>
-			<h1 onclick="location.href='view?title=${title}'">${title} (역사)</h1>
-			<c:if test="${pageNavigator.currentPage!=1}">
-			<a href="history?title=${title}&page=${pageNavigator.currentPage-1}">이전</a>
-			</c:if>
-			<c:if test="${pageNavigator.currentPage!=pageNavigator.totalPageCount}">
-			<a href="history?title=${title}&page=${pageNavigator.currentPage+1}">다음</a>
-			</c:if>
+			<h1 class="pointer underline" onclick="location.href='view?title=${title}'">${title} (역사)</h1>
+			<div class="btn_group">
+				<c:if test="${pageNavigator.totalPageCount == 1}">
+				<button class="disabled">이전</button>
+				<button class="disabled">다음</button>
+				</c:if>
+				<c:if test="${pageNavigator.totalPageCount != 1}">
+					<c:if test="${pageNavigator.currentPage<=1}">
+					<button class="disabled">이전</button>
+					<button class="active" onclick="location.href='history?title=${title}&page=${pageNavigator.currentPage+1}'">다음</button>
+					</c:if>
+					<c:if test="${pageNavigator.currentPage>1 && pageNavigator.currentPage<pageNavigator.totalPageCount}">
+					<button class="active" onclick="location.href='history?title=${title}&page=${pageNavigator.currentPage-1}'">이전</button>
+					<button class="active" onclick="location.href='history?title=${title}&page=${pageNavigator.currentPage+1}'">다음</button>
+					</c:if>
+					<c:if test="${pageNavigator.currentPage>=pageNavigator.totalPageCount}">
+					<button class="active" onclick="location.href='history?title=${title}&page=${pageNavigator.currentPage-1}'">이전</button>
+					<button class="disabled">다음</button>
+					</c:if>
+				</c:if>
+			</div>
 			<c:forEach var="history" items="${historys}">
 				<ul>
 					<li>${history.writedate}(
@@ -43,12 +55,26 @@
 					</li>
 				</ul>
 			</c:forEach>
-			<c:if test="${pageNavigator.currentPage!=1}">
-			<a href="history?title=${title}&page=${pageNavigator.currentPage-1}">이전</a>
-			</c:if>
-			<c:if test="${pageNavigator.currentPage!=pageNavigator.totalPageCount}">
-			<a href="history?title=${title}&page=${pageNavigator.currentPage+1}">다음</a>
-			</c:if>
+			<div class="btn_group">
+				<c:if test="${pageNavigator.totalPageCount == 1}">
+				<button class="disabled">이전</button>
+				<button class="disabled">다음</button>
+				</c:if>
+				<c:if test="${pageNavigator.totalPageCount != 1}">
+					<c:if test="${pageNavigator.currentPage<=1}">
+					<button class="disabled">이전</button>
+					<button class="active" onclick="location.href='history?title=${title}&page=${pageNavigator.currentPage+1}'">다음</button>
+					</c:if>
+					<c:if test="${pageNavigator.currentPage>1 && pageNavigator.currentPage<pageNavigator.totalPageCount}">
+					<button class="active" onclick="location.href='history?title=${title}&page=${pageNavigator.currentPage-1}'">이전</button>
+					<button class="active" onclick="location.href='history?title=${title}&page=${pageNavigator.currentPage+1}'">다음</button>
+					</c:if>
+					<c:if test="${pageNavigator.currentPage>=pageNavigator.totalPageCount}">
+					<button class="active" onclick="location.href='history?title=${title}&page=${pageNavigator.currentPage-1}'">이전</button>
+					<button class="disabled">다음</button>
+					</c:if>
+				</c:if>
+			</div>
 		</article>
 	</main>
 	<%@ include file="../layout/footer.jsp"%>

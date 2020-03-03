@@ -6,6 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>비밀번호 수정 - 뽕나무위키</title>
+<link rel="shortcut icon" href="../resources/favicon.ico">
 <script type="text/javascript" src="../resources/js/jquery-3.4.1.min.js"></script>
 <script>
 var passwordCheck = false;
@@ -42,19 +43,45 @@ function withdrawal() {
 		})
 	}
 </script>
+<style>
+#withdrawal_form{
+	display: inline-block;
+	margin-left: 230px;
+}
+#withdrawal_input{
+	margin: 20px 0;
+}
+#withdrawal_input input {
+	width: 500px;
+	padding: 10px;
+}
+#btns{
+	float: right;
+}
+.item{
+	margin-bottom: 15px;
+}
+</style>
 </head>
 <body>
 <%@ include file="../layout/header.jsp"%>
 	<main>
 		<%@ include file="../layout/aside.jsp"%>
 		<article>
-			<h1 onclick="location.href='info'">회원정보 (비밀번호 수정)</h1>
-			<a href="update-password">비밀번호 수정</a>
-			<a href="withdrawal">탈퇴</a>
+			<h1>회원정보 (탈퇴)</h1>
+			<div class="btn_group nav">
+				<button onclick="location.href='info'">회원정보</button>
+				<button onclick="location.href='update-password'">비밀번호 수정</button>
+				<button class="green fill" onclick="location.href='withdrawal'">탈퇴</button>
+			</div>
 			<form id="withdrawal_form">
-				<div><b>비밀번호</b></div>
-				<div><input type="password" name="password" id="form_password"></div>
-				<div><input type="submit" value="변경" id="form_submit"></div>
+				<div id="withdrawal_input">
+					<div class="item">
+					<div><b>비밀번호</b></div>
+					<div><input type="password" name="password" id="form_password"></div>
+					</div>
+				</div>
+				<div id="btns"><input class="red fill" type="submit" value="탈퇴" id="form_submit"></div>
 			</form>
 		</article>
 	</main>

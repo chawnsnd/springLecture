@@ -1,13 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <aside>
-<script type="text/javascript" src="../resources/js/jquery-3.4.1.min.js"></script>
 <script>
 $(document).ready(function(){
 	if(getCookie("recent_wiki") == null){
 		init();
 	}else{
-		console.log(getCookie("recent_wiki"));
 		var wikis = getCookie("recent_wiki").split(",");
 		var html = "";
 		$.each(wikis, function(idx, wiki){
@@ -52,6 +50,13 @@ aside ul{
 	padding: 0 20px;
 	list-style:none;
 }
+aside a{
+	text-decoration: none;
+	color: black;
+}
+aside a:hover{
+	text-decoration: underline;
+}
 </style>
 	<ul>
 		<li><a href="<c:url value="/" />">대문</a></li>
@@ -59,10 +64,10 @@ aside ul{
 	<hr>
 	<form action="<c:url value="/wiki/search" />" method="get" style="display: flex;">
 		<input type="text" id="aside_search_wiki" name="keyword" placeholder="위키 검색" style="flex: 3;">
-		<input type="submit" id="aside_search_wiki_submit" value="검색" style="flex: 1;">
+		<button type="submit" id="aside_search_wiki_submit" value="검색" style="flex: 1;"><i class="fas fa-search"></i></button>
 	</form>
 	<hr>
-	<div>특수기능</div>
+	<div><b>특수기능</b></div>
 	<ul>
 		<li><a href="#" onclick="location.href='<c:url value="/wiki/random" />';">랜덤문서</a></li>
 		<li><a href="#" onclick="alert('준비중인 기능입니다.');">편집된지 오래된 문서</a></li>
@@ -70,7 +75,7 @@ aside ul{
 		<li><a href="#" onclick="alert('준비중인 기능입니다.');">내용이 긴 문서</a></li>
 	</ul>
 	<hr>
-	<div>최근 편집문서</div>
+	<div><b>최근 편집문서</b></div>
 	<ul id="recent_wiki">
 	</ul>
 </aside>
