@@ -25,6 +25,16 @@ public class UserService {
 		return userDao.insertUser(user);
 	}
 	
+	public User login(User loginReq) {
+		User user = userDao.selectUserById(loginReq.getId());
+		String loginPassword = PasswordUtil.hashBySHA256(loginReq.getPassword(), user.getSalt());
+		if(user.getPassword().equals(loginPassword)) {
+			return user;
+		}else {
+			return null;
+		}
+	}
+	
 	public boolean updatePassword(int num, String oldPassword, String newPassword) {
 		User user = userDao.selectUser(num);
 		String hashOldPassword = PasswordUtil.hashBySHA256(oldPassword, user.getSalt());

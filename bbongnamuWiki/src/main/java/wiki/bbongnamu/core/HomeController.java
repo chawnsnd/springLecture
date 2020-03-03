@@ -1,5 +1,7 @@
 package wiki.bbongnamu.core;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.text.DateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -21,19 +23,17 @@ public class HomeController {
 	
 	/**
 	 * Simply selects the home view to render by returning its name.
+	 * @throws UnsupportedEncodingException 
 	 */
 	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public String home(Locale locale, Model model) {
-		logger.info("Welcome home! The client locale is {}.", locale);
-		
-		Date date = new Date();
-		DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);
-		
-		String formattedDate = dateFormat.format(date);
-		
-		model.addAttribute("serverTime", formattedDate );
-		
-		return "home";
+	public String home(Locale locale, Model model) throws UnsupportedEncodingException{		
+		String main = URLEncoder.encode("뽕나무위키", "UTF-8");
+		return "redirect:/wiki/view?title="+main;
+	}
+
+	@RequestMapping(value = "/error/500", method = RequestMethod.GET)
+	public String go500Error(Locale locale, Model model){		
+		return "error/500";
 	}
 	
 }

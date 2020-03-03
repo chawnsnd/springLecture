@@ -2,12 +2,14 @@ package wiki.bbongnamu.core.dao;
 
 import java.util.ArrayList;
 
+import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import wiki.bbongnamu.core.util.PageNavigator;
 import wiki.bbongnamu.core.vo.Wiki;
 
 @Repository
@@ -19,47 +21,44 @@ public class WikiDao {
 	private SqlSession session;
 	
 	public boolean insertWiki(Wiki wiki) {
+		logger.debug("신규 등록 위키: "+wiki.toString());
 		WikiMapper mapper = session.getMapper(WikiMapper.class);
-		if (mapper.insertWiki(wiki) == 1) {
+		if(mapper.insertWiki(wiki) == 1) {
 			return true;
-		} else {
+		}else {
 			return false;
 		}
 	}
 
+	public int selectNextSeq() {
+		WikiMapper mapper = session.getMapper(WikiMapper.class);
+		return mapper.selectNextSeq();
+	}
+	
 	public Wiki selectWiki(int num) {
 		WikiMapper mapper = session.getMapper(WikiMapper.class);
-		Wiki wiki = mapper.selectWiki(num);
-		return wiki;
+		return mapper.selectWiki(num);
 	}
 
-	public ArrayList<Wiki> selectWikiByTitle(String keyword) {
+	public int selectCountByTitle(String title) {
 		WikiMapper mapper = session.getMapper(WikiMapper.class);
-		ArrayList<Wiki> wikis = mapper.selectWikiByTitle(keyword);
-		return wikis;
-	}
-	
-	public ArrayList<Wiki> selectWikiByContent(String keyword) {
-		WikiMapper mapper = session.getMapper(WikiMapper.class);
-		ArrayList<Wiki> wikis = mapper.selectWikiByContent(keyword);
-		return wikis;
-	}
-	
-	public boolean updateWiki(Wiki wiki) {
-		WikiMapper mapper = session.getMapper(WikiMapper.class);
-		if (mapper.updateWiki(wiki) == 1) {
-			return true;
-		} else {
-			return false;
-		}
+		return mapper.selectCountByTitle(title);
 	}
 
-	public boolean updateWikiToDelete(int num) {
+	public ArrayList<Wiki> selectWikisByTitle(String title, PageNavigator pageNavigator) {
 		WikiMapper mapper = session.getMapper(WikiMapper.class);
-		if (mapper.updateWikiToDelete(num) == 1) {
-			return true;
-		} else {
-			return false;
-		}
+		RowBounds rowBounds = new RowBounds(pageNavigator.getStartRecord(), pageNavigator.getCountPerPage());
+		return mapper.selectWikisByTitle(title, rowBounds);
 	}
+
+	public Wiki selectWikiByTitle(String title) {
+		WikiMapper mapper = session.getMapper(WikiMapper.class);
+		return mapper.selectWikiByTitle(title);
+	}
+	
+	public Wiki selectRandomWiki() {
+		WikiMapper mapper = session.getMapper(WikiMapper.class);
+		return mapper.selectRandomWiki();
+	}
+	
 }

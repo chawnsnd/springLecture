@@ -14,28 +14,32 @@ create sequence seq_user;
 -- 위키 정보 테이블
 create table tbl_wiki (
 	num			number			primary key,	--식별번호
-	title		varchar2(200)	not null,		--제목
-	content		clob							--내용
+	title		varchar2(200)	not null		--제목
 );
 create sequence seq_wiki;
 
 -- 위키 역사 정보 테이블
-create table tbl_wiki_history (
+create table tbl_history (
 	num			number			primary key,	--식별번호
 	wikinum		number			not null,		--위키 식별번호
 	usernum		number			not null,		--작성자 식별번호
+	content		clob,							--내용
 	explanation	varchar2(200),					--추가 설명
 	writedate	date			default sysdate	not null,
-	type		varchar2(20)	default 'CREATE'	not null		--역사타입
-		check (type in ('CREATE', 'UPDATE', 'ROLLBACK', 'DELETE')),
-	constraint wiki_history_fk_wiki foreign key(wikinum)
+	type		varchar2(20)	not null		--역사타입
+		check (type in ('CREATE', 'UPDATE', 'REVERT', 'DELETE')),
+	revertnum	number,							--롤백시 롤백한 위키의 넘버
+	constraint history_fk_wiki foreign key(wikinum)
 		references tbl_wiki(num) on delete cascade,
-	constraint wiki_history_fk_user foreign key(usernum)
-		references tbl_user(num) on delete set null
+	constraint history_fk_user foreign key(usernum)
+		references tbl_user(num) on delete set null,
+	constraint histroy_fk_revert foreign key(revertnum)
+		references tbl_history(num) on delete set null
 );
-create sequence seq_wiki_history;
+create sequence seq_history;
 
 select * from tbl_user;
 select * from tbl_wiki;
 select * from tbl_wiki_history;
+delete tbl_user where id = 'chawnsnd';
 

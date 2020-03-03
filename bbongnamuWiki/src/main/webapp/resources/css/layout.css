@@ -1,0 +1,41 @@
+@charset "UTF-8";
+
+body{
+	margin: 0;
+	background-color: #eaeaea;
+}
+
+header{
+	padding: 5px 117px;
+	background-color: palevioletred;
+	color: white;
+}
+
+main{
+	border-left: 1px solid #ccc;
+	border-right: 1px solid #ccc;
+	background-color: white;
+	max-width: 1300px;
+	padding: 24px;
+	margin: 0 auto;
+	min-height: 1000px;
+	display: flex;
+}
+
+aside{
+	flex: 1;
+	border-right: 1px solid #ccc;
+	padding-right: 24px;
+}
+
+article{
+	padding-left: 24px;
+	flex: 5;
+}
+
+footer{
+	font-size: 12px;
+	text-align: center;
+	background-color: white;
+	border-top: 1px solid #ccc;
+}

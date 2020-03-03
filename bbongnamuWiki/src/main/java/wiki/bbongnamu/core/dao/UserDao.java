@@ -25,9 +25,21 @@ public class UserDao {
 		}
 	}
 
+	public User checkUserId(String id) {
+		UserMapper mapper = session.getMapper(UserMapper.class);
+		User user = mapper.selectUserById(id);
+		return user;
+	}
+
 	public User selectUser(int num) {
 		UserMapper mapper = session.getMapper(UserMapper.class);
 		User user = mapper.selectUser(num);
+		return user;
+	}
+
+	public User selectUserById(String id) {
+		UserMapper mapper = session.getMapper(UserMapper.class);
+		User user = mapper.selectUserById(id);
 		return user;
 	}
 	

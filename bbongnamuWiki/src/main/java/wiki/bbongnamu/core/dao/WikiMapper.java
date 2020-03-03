@@ -2,20 +2,24 @@ package wiki.bbongnamu.core.dao;
 
 import java.util.ArrayList;
 
+import org.apache.ibatis.session.RowBounds;
+
 import wiki.bbongnamu.core.vo.Wiki;
 
 public interface WikiMapper {
 
 	public int insertWiki(Wiki wiki);
 	
-	public Wiki selectWiki(int num);
+	public int selectNextSeq();
 
-	public ArrayList<Wiki> selectWikiByTitle(String keyword);
+	public Wiki selectWiki(int num);
 	
-	public ArrayList<Wiki> selectWikiByContent(String keyword);
+	public Wiki selectWikiByTitle(String title);
 	
-	public int updateWiki(Wiki wiki);
+	public int selectCountByTitle(String title);
+
+	public ArrayList<Wiki> selectWikisByTitle(String title, RowBounds rowBounds);
 	
-	public int updateWikiToDelete(int num);
+	public Wiki selectRandomWiki();
 	
 }

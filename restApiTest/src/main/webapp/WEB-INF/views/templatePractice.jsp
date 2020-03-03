@@ -11,7 +11,7 @@
 <script src="./resources/js/handlebars-custom.js"></script>
 <script>
 $(document).ready(function(){
-	getBoard(2);
+	getBoard(1);
 })
 function getBoard(boardno){
 	$.ajax({

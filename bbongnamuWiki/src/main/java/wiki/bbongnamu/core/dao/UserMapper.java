@@ -5,6 +5,8 @@ import wiki.bbongnamu.core.vo.User;
 public interface UserMapper {
 
 	public int insertUser(User user);
+
+	public User selectUserById(String id);
 	
 	public User selectUser(int num);
 		

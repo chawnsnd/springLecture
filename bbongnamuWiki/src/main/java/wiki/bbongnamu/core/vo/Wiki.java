@@ -7,4 +7,6 @@ public class Wiki {
 	private int num;
 	private String title;
 	private String content;
+	private int historynum;
+	private String historytype;
 }

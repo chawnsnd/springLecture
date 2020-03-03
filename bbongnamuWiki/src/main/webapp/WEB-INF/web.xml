@@ -44,5 +44,12 @@
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
 	<!-- 한글설정 종료 -->
+	
+	<!-- 에러처리 페이지 -->
+	<error-page>
+		<error-code>500</error-code>
+		<location>/error/500</location>
+	</error-page>
+	<!-- 에러처리 페이지 -->
 
 </web-app>
