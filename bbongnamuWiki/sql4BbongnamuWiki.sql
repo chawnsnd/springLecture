@@ -2,11 +2,11 @@
 
 --회원 정보 테이블
 create table tbl_user (
-	num			number			primary key,	--식별번호
-	id			varchar2(20) 	not null,		--회원ID
-	password	varchar2(100) 	not null,		--비밀번호
-	salt		varchar2(5)		not null,		--비밀번호솔트
-	type		varchar2(20)	default 'GENERAL'	not null		--회원타입
+	num			number			primary key,				--식별번호
+	id			varchar2(20) 	unique			not null,	--회원ID
+	password	varchar2(100) 	not null,					--비밀번호
+	salt		varchar2(5)		not null,					--비밀번호솔트
+	type		varchar2(20)	default 'GENERAL'	not null--회원타입
 		check (type in ('GENERAL', 'ADMIN', 'WITHDRAWAL'))
 );
 create sequence seq_user;

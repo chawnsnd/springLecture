@@ -58,4 +58,16 @@
 		where rownum = 1
 	</select>
 
+	<select id="selectRecentHistorys" resultType="history">
+	<![CDATA[
+		select *
+		from (
+			select *
+			from tbl_history
+			order by num desc
+		)
+		where rownum <= 10
+	]]>
+	</select>
+
 </mapper>

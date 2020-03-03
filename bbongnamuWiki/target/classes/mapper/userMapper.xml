@@ -17,6 +17,12 @@
 		)
 	</insert>
 
+	<select id="selectNotWithdrawalUserById" resultType="user">
+		select *
+		from tbl_user
+		where id = #{id} and type != 'WITHDRAWAL'
+	</select>
+
 	<select id="selectUserById" resultType="user">
 		select *
 		from tbl_user
@@ -32,7 +38,7 @@
 	<update id="updatePassword" parameterType="user">
 		update tbl_user
 		set
-			password = ${password}
+			password = #{password}
 		where num = #{num}
 	</update>
 

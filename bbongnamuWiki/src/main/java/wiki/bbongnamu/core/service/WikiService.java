@@ -51,19 +51,6 @@ public class WikiService {
 		return map;
 	}
 
-//	
-//	public HashMap<String, Object> searchHistory(String title, int currentPage) {
-//		HashMap<String, Object> map = new HashMap<>();
-//		Wiki wiki = wikiDao.selectWikiByTitle(title);
-//		int totalCount = historyDao.selectCountByWikinum(wiki.getNum());
-//		PageNavigator pageNavigator = new PageNavigator(COUNT_PER_PAGE, PAGE_PER_GROUP, currentPage, totalCount);
-//		ArrayList<History> historys = historyDao.selectHistorysByWikinum(wiki.getNum(), pageNavigator);
-//		map.put("historys", historys);
-//		map.put("pageNavigator", pageNavigator);
-//		return map;
-//	}
-//	
-	
 	public Wiki searchWikiByTitle(String title) throws NotFoundWikiException{
 		Wiki wiki = wikiDao.selectWikiByTitle(title);
 		if(wiki == null) throw new NotFoundWikiException();
@@ -73,8 +60,6 @@ public class WikiService {
 		return wiki;
 	}
 
-
-	
 	public Wiki searchWikiByTitleAndHistorynum(String title, int historynum) throws NotFoundWikiException{
 		Wiki wiki = wikiDao.selectWikiByTitle(title);
 		if(wiki == null) throw new NotFoundWikiException();
@@ -158,7 +143,7 @@ public class WikiService {
 		return true;
 	}
 	
-	public HashMap<String, Object> searchHistory(String title, int currentPage) {
+	public HashMap<String, Object> searchHistorys(String title, int currentPage) {
 		HashMap<String, Object> map = new HashMap<>();
 		Wiki wiki = wikiDao.selectWikiByTitle(title);
 		int totalCount = historyDao.selectCountByWikinum(wiki.getNum());
@@ -167,6 +152,15 @@ public class WikiService {
 		map.put("historys", historys);
 		map.put("pageNavigator", pageNavigator);
 		return map;
+	}
+
+	public ArrayList<Wiki> searchRecentWikis() {
+		ArrayList<History> historys = historyDao.selectRecentHistorys();
+		ArrayList<Wiki> wikis = new ArrayList<>();
+		for (History history : historys) {
+			wikis.add(wikiDao.selectWiki(history.getWikinum()));
+		}
+		return wikis;
 	}
 	
 	public Wiki searchRandomWiki(){

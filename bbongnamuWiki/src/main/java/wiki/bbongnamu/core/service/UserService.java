@@ -26,7 +26,10 @@ public class UserService {
 	}
 	
 	public User login(User loginReq) {
-		User user = userDao.selectUserById(loginReq.getId());
+		User user = userDao.selectNotWithdrawalUserById(loginReq.getId());
+		if(user == null) {
+			return null;
+		}
 		String loginPassword = PasswordUtil.hashBySHA256(loginReq.getPassword(), user.getSalt());
 		if(user.getPassword().equals(loginPassword)) {
 			return user;
@@ -37,10 +40,13 @@ public class UserService {
 	
 	public boolean updatePassword(int num, String oldPassword, String newPassword) {
 		User user = userDao.selectUser(num);
+		logger.debug(user.toString());
 		String hashOldPassword = PasswordUtil.hashBySHA256(oldPassword, user.getSalt());
 		if(!hashOldPassword.equals(user.getPassword())) {
+			logger.debug("비밀번호 확인 다름");
 			return false;
 		}
+		logger.debug("비밀번호 확인 같음");
 		String hashNewPassword = PasswordUtil.hashBySHA256(newPassword, user.getSalt());
 		user.setPassword(hashNewPassword);
 		return userDao.updatePassword(user);
@@ -52,7 +58,7 @@ public class UserService {
 		if(!hashPassword.equals(user.getPassword())) {
 			return false;
 		}
-		return userDao.deleteUser(num);
+		return userDao.updateTypeToWithdrawal(num);
 	}
 	
 	public User info(int num) {
@@ -60,6 +66,7 @@ public class UserService {
 		User user = userDao.selectUser(num);
 		info.setNum(user.getNum());
 		info.setId(user.getId());
+		info.setType(user.getType());
 		return info;
 	}
 	

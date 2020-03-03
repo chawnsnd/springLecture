@@ -18,4 +18,5 @@ public interface HistoryMapper {
 
 	public History selectRecentHistoryByWikinum(int wikinum);
 	
+	public ArrayList<History> selectRecentHistorys();
 }

@@ -50,4 +50,9 @@ public class HistoryDao {
 		HistoryMapper mapper = session.getMapper(HistoryMapper.class);
 		return mapper.selectRecentHistoryByWikinum(wikinum);
 	}
+	
+	public ArrayList<History> selectRecentHistorys(){
+		HistoryMapper mapper = session.getMapper(HistoryMapper.class);
+		return mapper.selectRecentHistorys();
+	}
 }

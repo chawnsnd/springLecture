@@ -27,7 +27,7 @@ public class HomeController {
 	 */
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home(Locale locale, Model model) throws UnsupportedEncodingException{		
-		String main = URLEncoder.encode("뽕나무위키", "UTF-8");
+		String main = URLEncoder.encode("뽕나무위키:대문", "UTF-8");
 		return "redirect:/wiki/view?title="+main;
 	}
 

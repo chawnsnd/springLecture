@@ -15,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import wiki.bbongnamu.core.exception.NotFoundWikiException;
 import wiki.bbongnamu.core.service.UserService;
@@ -97,7 +98,7 @@ public class WikiController {
 	public String goHistory(@RequestParam(name="title") String title, 
 			@RequestParam(value = "page", defaultValue = "1") int page,
 			Model model) {
-		HashMap<String, Object> map = wikiService.searchHistory(title, page);
+		HashMap<String, Object> map = wikiService.searchHistorys(title, page);
 		ArrayList<History> historys = (ArrayList<History>) map.get("historys");
 		PageNavigator pageNavigator = (PageNavigator) map.get("pageNavigator");
 		for (History history : historys) {
@@ -158,5 +159,12 @@ public class WikiController {
 		String title = wikiService.searchRandomWiki().getTitle();
 		title = URLEncoder.encode(title, "UTF-8");
 		return "redirect:/wiki/view?title="+title;
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/recent-wikis", method = RequestMethod.GET)
+	public ArrayList<Wiki> recentWikis() {
+		ArrayList<Wiki> wikis = wikiService.searchRecentWikis();
+		return wikis;
 	}
 }

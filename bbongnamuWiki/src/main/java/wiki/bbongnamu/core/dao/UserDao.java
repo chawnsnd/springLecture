@@ -37,6 +37,12 @@ public class UserDao {
 		return user;
 	}
 
+	public User selectNotWithdrawalUserById(String id) {
+		UserMapper mapper = session.getMapper(UserMapper.class);
+		User user = mapper.selectNotWithdrawalUserById(id);
+		return user;
+	}
+
 	public User selectUserById(String id) {
 		UserMapper mapper = session.getMapper(UserMapper.class);
 		User user = mapper.selectUserById(id);

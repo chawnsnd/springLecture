@@ -6,6 +6,8 @@ public interface UserMapper {
 
 	public int insertUser(User user);
 
+	public User selectNotWithdrawalUserById(String id);
+
 	public User selectUserById(String id);
 	
 	public User selectUser(int num);

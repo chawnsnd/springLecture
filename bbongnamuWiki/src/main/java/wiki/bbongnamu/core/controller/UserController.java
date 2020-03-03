@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -79,12 +80,55 @@ public class UserController {
 	public HashMap<String, Boolean> idCheck(String id) {
 		HashMap<String, Boolean> result = new HashMap<>();
 		try {
-			joinCheck.checkId(id);
+			result.put("result", joinCheck.checkId(id));
 		} catch (DuplicateIdException e) {
 			result.put("result", false);
 			return result;
 		}
-		result.put("result", true);
+		return result;
+	}
+	
+	@RequestMapping(value= "/info", method = RequestMethod.GET)
+	public String goInfo(HttpSession session, Model model) {
+		int usernum = (int) session.getAttribute("usernum");
+		User user = userService.info(usernum);
+		model.addAttribute("user", user);
+		return "user/info";
+	}
+
+	@RequestMapping(value= "/update-password", method = RequestMethod.GET)
+	public String goUpdatePassword(HttpSession session, Model model) {
+		return "user/updatePassword";
+	}
+
+	@ResponseBody
+	@RequestMapping(value= "/update-password", method = RequestMethod.POST)
+	public HashMap<String, Boolean> updatePassword(String oldPassword, String newPassword, HttpSession session) {
+		HashMap<String, Boolean> result = new HashMap<>();
+		try {
+			result.put("result", userService.updatePassword((int) session.getAttribute("usernum"), oldPassword, newPassword));
+		} catch (Exception e) {
+			result.put("result", false);
+			return result;
+		}
+		return result;
+	}
+
+	@RequestMapping(value= "/withdrawal", method = RequestMethod.GET)
+	public String goWithdrawal(HttpSession session, Model model) {
+		return "user/withdrawal";
+	}
+
+	@ResponseBody
+	@RequestMapping(value= "/withdrawal", method = RequestMethod.POST)
+	public HashMap<String, Boolean> withdrawal(String password, HttpSession session) {
+		HashMap<String, Boolean> result = new HashMap<>();
+		try {
+			result.put("result", userService.withdrawal((int) session.getAttribute("usernum"), password));
+		} catch (Exception e) {
+			result.put("result", false);
+			return result;
+		}
 		return result;
 	}
 }
